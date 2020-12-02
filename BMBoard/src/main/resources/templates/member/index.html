@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="UTF-8">
+    <title>sign up</title>
+    <script src="/js/jquery-3.1.0.js"></script>
+    <th:block layout:fragment="script">
+	<script th:inline="javascript">
+	/*<![CDATA[*/
+		$(function () {
+			var msg = /*[[${loginFailMsg}]]*/;
+			if (msg != null) {
+				alert(msg);
+				
+				window.location.href = "/member";
+			}
+		});
+	/*]]>*/
+	</script>
+	</th:block>
+    <script>
+    	$(document).ready(function(){
+    		$('#join').on("click", function(){
+    			alert("email : " + $("#email").val() + "\tpassword : " + $("#password").val() + "\tname : " + $("#name").val() + "\tauth : MEMBER" + "\tcsrf : " + $("#csrf").val());
+    			
+    			$.ajax({
+    			      url:'/member/signup'
+    			    , async:true
+    			    , type:'POST'
+    			    , data: {
+    			          email:$("#email").val()
+    			        , password:$("#password").val()
+    			        , name:$("#name").val()
+    			        , auth:"ROLE_ADMIN"
+   			        	/*, auth:"ROLE_MEMBER"*/
+    			        , _csrf:$("#csrf").val()
+    			    }
+    			    , dataType:'json'
+    			    , success:function(e) {
+    			    	console.log(e);
+    			    }
+    			    , error:function(e) {
+    			    	console.log(e);
+    			    }
+    			});
+    		});
+    		
+    		$('#selectAll').on("click", function(){
+    			$.ajax({
+    			      url:'/member/all'
+    			    , async:true
+    			    , type:'GET'
+    			    , data: {
+    			    }
+    			    , dataType:'json'
+    			    , success:function(e) {
+    			    	console.log(e);
+    			    }
+    			    , error:function(e) {
+    			    	console.log(e);
+    			    }
+    			});
+    		});
+
+    		$('#selectEmail').on("click", function(){
+    			alert($("#email").val());
+    			
+    			$.ajax({
+    			      url:'/member/email'
+    			    , async:true
+    			    , type:'GET'
+    			    , data: {
+    			          email:$("#email").val()
+    			    }
+    			    , dataType:'json'
+    			    , success:function(e) {
+    			    	console.log(e);
+    			    }
+    			    , error:function(e) {
+    			    	console.log(e);
+    			    }
+    			});
+    		});
+    		
+    		$('#login').on("click", function(){
+    			alert("email : " + $("#username").val() + "\tpassword : " + $("#password1").val() + "\tcsrf : " + $("#csrf").val());
+    		});
+    	});
+    </script>
+  </head>
+  <body>
+    <h1>Sign Up</h1> <hr>
+		email : <input type="text" name="email" id="email"> <br>
+		name : <input type="text" name="name" id="name"> <br>
+		password : <input type="password" name="password" id="password"> <br>
+		<button id="join" type="submit">Join</button>
+		<button id="selectEmail" type="submit">Email</button>
+		<button id="selectAll" type="submit">All</button>
+    <br>
+    
+    <h1>Login</h1> <hr>
+    <form action="/member/login" method="post">
+        <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+
+        <input type="text" id="username" name="username" placeholder="이메일 입력해주세요" th:value="${username}">
+        <input type="password" id="password1" name="password" placeholder="비밀번호">
+        <button id="login" type="submit">로그인</button>
+    </form>
+  </body>
+</html>
