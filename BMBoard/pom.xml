@@ -12,6 +12,7 @@
 	<artifactId>BMBoard</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>BMBoard</name>
+	<packaging>jar</packaging>
 	<description>BMBoard</description>
 
 	<properties>
