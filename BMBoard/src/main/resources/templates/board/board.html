@@ -6,11 +6,91 @@
     <script src="/js/jquery-3.1.0.js"></script>
     <script>
     	$(document).ready(function(){
+    		var initBoard = {
+    			  getHackerNews : function(){
+    				var newStories = this.getNewStories();
+    				var story = null;
+    				var cnt = 10;
+    				
+    				for(var i = 0; i < cnt; i++){
+    					story = this.getStory(newStories[i]);
+    					this.viewStory(story);
+    				}
+    			}
+    			, getNewStories : function(){
+    				var data = null;
+    				var url = 'https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty';
+    				
+        			data = this.getJson(url);
+        			
+        			return data;
+    			}
+    			, getStory : function(id){
+    				var data = null;
+    				var url = 'https://hacker-news.firebaseio.com/v0/item/' + id + '.json?print=pretty';
+    				
+    				data = this.getJson(url);
+        			
+        			return data;
+    			}
+    			, getJson : function(url){
+   					var data = null;
+   					
+    				$.ajax({
+	  	  			      url:url
+	  	  			    , async:false
+	  	  			    , type:'GET'
+	  	  			    , data: {
+	  	  			    }
+	  	  			    , dataType:'json'
+	  	  			    , success:function(e) {
+	  	  			    	data = e;
+	  	  			    }
+	  	  			    , error:function(e) {
+	  	  			    	console.log(e);
+	  	  			    }
+	  	  			});
+    				
+    				return data;
+    			}
+    			, viewStory : function(jsonStory){
+    				var html = "";
+    				jsonStory.time = this.getFormDate(jsonStory.time);
+    				
+    				html += "<div>";
+    				html += "<span id=\"author\">" + jsonStory.by + "</span><br>";
+    				html += "<span id=\"title\">" + jsonStory.title + "</span><br>";
+    				if(jsonStory.text != null || jsonStory.text != undefined){
+    					html += "<span id=\"text\">" + jsonStory.text + "</span><br>";
+    				}else if(jsonStory.url != null || jsonStory.url != undefined){
+    					html += "<span id=\"url\">" + jsonStory.url + "</span><br>";
+    				}
+    				html += "<span id=\"time\">" + jsonStory.time + "</span>";
+    				html += "</div>";
+    				html += "<hr>";
+    				
+    				$("#divHackerNew").append(html);
+				}
+    			, getFormDate : function(createTime) {
+    				var createTime = new Date(createTime*1000);
+    				createTime = createTime.getFullYear() + "-" +
+		                 ((createTime.getMonth() < 9)?"0" + (createTime.getMonth()+1):(createTime.getMonth()+1)) + "-" +
+		                 ((createTime.getDate() < 10)?"0" + createTime.getDate():createTime.getDate()) + " " + 
+		                 ((createTime.getHours() < 10)?"0" + createTime.getHours():createTime.getHours()) + ":" + 
+		                 ((createTime.getMinutes() < 10)?"0" + createTime.getMinutes():createTime.getMinutes()) + ":" + 
+		                 ((createTime.getSeconds() < 10)?"0" + createTime.getSeconds():createTime.getSeconds());
+		            return createTime;
+    			}
+    		};
+    		
+    		initBoard.getHackerNews();
     	});
     </script>
   </head>
   <body>
     <h1>WelCome to Board Page!!</h1> <hr>
+    <div id="divHackerNew">
+    </div>
     <form action="/member/logout" method="get">
         <!-- <input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" /> -->
         <button id="logout" type="submit">로그아웃</button>
