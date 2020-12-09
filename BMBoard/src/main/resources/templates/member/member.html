@@ -31,13 +31,13 @@
 					<div class="sidebar-sticky pt-3">
 						<ul class="nav flex-column">
 							<li class="nav-item">
-								<a class="nav-link" href="/bmboard/member/list.html">
+								<a class="nav-link active" href="/bmboard/member/list.html">
 									<span data-feather="users"></span>
 									사용자 관리
 								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link active" href="/bmboard/board/list.html">
+								<a class="nav-link" href="/bmboard/board/list.html">
 									<span data-feather="clipboard"></span>
 									게시판 관리
 								</a>
@@ -60,7 +60,7 @@
 		
 				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
 					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-						<h1 class="h2">게시판 관리</h1>
+						<h1 class="h2">사용자 관리</h1>
 						<div class="btn-toolbar mb-2 mb-md-0">
 							<div class="btn-group mr-2">
 								<button type="button" class="btn btn-sm btn-outline-secondary">
@@ -71,7 +71,7 @@
 							<div class="btn-group mr-2">
 								<button type="button" class="btn btn-sm btn-outline-success" id="buttonRegister">
 								<span data-feather="plus-square"></span>
-								게시판 등록
+								회원 등록
 								</button>
 							</div>
 						</div>
@@ -84,9 +84,9 @@
 									<table id="mytable" class="table table-bordred table-striped table-sm">
 										<thead>
 											<th>순번</th>
-											<th>게시판명</th>
-											<th>설명</th>
-											<th>등록일자</th>
+											<th>E-MAIL</th>
+											<th>회원이름</th>
+											<th>가입일자</th>
 											<th>수정일자</th>
 											<th>수정</th>
 											<th>삭제</th>
@@ -114,34 +114,51 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 						</button>
-						<h4 class="modal-title custom_align" id="Heading">게시판 정보 수정</h4>
+						<h4 class="modal-title custom_align" id="Heading">회원 정보 수정</h4>
 					</div>
 					<div class="modal-body">
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanBoardIdx1" style="width:105px;">게시판순번</span>
+								<span class="input-group-text" id="spanMemberIdx1" style="width:105px;">회원순번</span>
 							</div>
-							<input type="text" class="form-control bmInput" id="boardIdx1" disabled="true" aria-label="게시판순번" aria-describedby="게시판순번">
+							<input type="text" class="form-control bmInput" id="memberIdx1" disabled="true" aria-label="회원순번" aria-describedby="회원순번">
+							<div class="input-group-append">
+								<button class="btn btn-outline-warning" type="button" id="goInitPassword">비밀번호 초기화</button>
+							</div>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanBoardName1" style="width:105px;">게시판명</span>
+								<span class="input-group-text" id="spanName1" style="width:105px;">회원이름</span>
 							</div>
-							<input type="text" class="form-control bmInput" id="boardName1" disabled="true" aria-label="게시판명" aria-describedby="게시판명">
-						</div>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">게시판설명</span>
-							</div>
-						</div>
-						<div class="input-group">
-							<textarea class="form-control" id="boardDesc1" rows="5" aria-label="With textarea"></textarea>
+							<input type="text" class="form-control bmInput" id="name1" disabled="true" aria-label="회원이름" aria-describedby="회원이름">
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanRegDate1" style="width:105px;">등록일자</span>
+								<span class="input-group-text" id="spanEmail1" style="width:105px;">회원이메일</span>
 							</div>
-							<input type="text" class="form-control bmInput" id="regDate1" disabled="true" aria-label="등록일자" aria-describedby="등록일자">
+							<input type="text" class="form-control bmInput" id="email1" disabled="true" aria-label="회원이메일" aria-describedby="회원이메일">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<label class="input-group-text" for="auth1" style="width:105px;">회원권한</label>
+							</div>
+							<select class="custom-select bmInput" id="auth1">
+								<option value="ROLE_ADMIN">관리자</option>
+								<option value="ROLE_MEMBER">회원</option>
+								<option value="ROLE_ADMIN, ROLE_MEMBER">관리자, 회원</option>
+							</select>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="spanRanking1" style="width:105px;">회원랭킹</span>
+							</div>
+							<input type="text" class="form-control bmInput" id="ranking1" disabled="true" aria-label="회원랭킹" aria-describedby="회원랭킹">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="spanRegDate1" style="width:105px;">가입일자</span>
+							</div>
+							<input type="text" class="form-control bmInput" id="regDate1" disabled="true" aria-label="가입일자" aria-describedby="가입일자">
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
@@ -151,7 +168,7 @@
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanmModDate1" style="width:105px;">수정일자</span>
+								<span class="input-group-text" id="spanmMdDate1" style="width:105px;">수정일자</span>
 							</div>
 							<input type="text" class="form-control bmInput" id="modDate1" disabled="true" aria-label="수정일자" aria-describedby="수정일자">
 						</div>
@@ -163,12 +180,35 @@
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<label class="input-group-text" for="boardState1" style="width:105px;">게시판상태</label>
+								<label class="input-group-text" for="memberState1" style="width:105px;">회원상태</label>
 							</div>
-							<select class="custom-select bmInput" id="boardState1">
+							<select class="custom-select bmInput" id="memberState1">
 								<option value="NORMAL">정상</option>
 								<option value="BLOCK">관리자 삭제</option>
+								<option value="PWLOCK">비밀번호 3회 이상 불일치</option>
 							</select>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="spanMemberTry1" style="width:105px;">회원횟수</span>
+							</div>
+							<input type="text" class="form-control bmInput" id="memberTry1" aria-label="회원로그인시도횟수" aria-describedby="회원로그인시도횟수">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<label class="input-group-text" for="adminState1" style="width:105px;">관리자상태</label>
+							</div>
+							<select class="custom-select bmInput" id="adminState1">
+								<option  value="NORMAL">정상</option>
+								<option  value="BLOCK">관리자 삭제</option>
+								<option  value="PWLOCK">비밀번호 3회 이상 불일치</option>
+							</select>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="spanAdminTry1" style="width:105px;">관리자횟수</span>
+							</div>
+							<input type="text" class="form-control bmInput" id="adminTry1" aria-label="관리자로그인시도횟수" aria-describedby="관리자로그인시도횟수" min="0" max="5">
 						</div>
 					</div>
 					<div class="modal-footer ">
@@ -187,31 +227,52 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 						</button>
-						<h4 class="modal-title custom_align" id="Heading">게시판 등록</h4>
+						<h4 class="modal-title custom_align" id="Heading">회원 등록</h4>
 					</div>
 					<div class="modal-body">
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanBoardName2" style="width:105px;">게시판명</span>
+								<span class="input-group-text" id="spanName2" style="width:105px;">회원이름</span>
 							</div>
-							<input type="text" class="form-control bmInput" id="boardName2" aria-label="게시판명" aria-describedby="게시판명">
+							<input type="text" class="form-control bmInput" id="name2" aria-label="회원이름" aria-describedby="회원이름">
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<span class="input-group-text" id="spanEmail2" style="width:105px;">회원이메일</span>
+							</div>
+							<input type="text" class="form-control bmInput" id="email2" aria-label="회원이메일" aria-describedby="회원이메일">
 							<div class="input-group-append">
-								<button class="btn btn-outline-warning" type="button" id="goDupCheck">중복확인</button>
+								<button class="btn btn-outline-warning" type="button" id="goEmailCheck">중복확인</button>
 							</div>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanBoardDesc2" style="width:105px;">게시판설명</span>
+								<label class="input-group-text" for="auth2" style="width:105px;">회원권한</label>
 							</div>
-							<input type="text" class="form-control bmInput" id="boardDesc2" aria-label="게시판설명" aria-describedby="게시판설명">
+							<select class="custom-select bmInput" id="auth2">
+								<option value="ROLE_ADMIN">관리자</option>
+								<option value="ROLE_MEMBER">회원</option>
+								<option value="ROLE_ADMIN, ROLE_MEMBER">관리자, 회원</option>
+							</select>
 						</div>
 						<div class="input-group mb-3">
 							<div class="input-group-prepend">
-								<label class="input-group-text" for="boardState2" style="width:105px;">게시판상태</label>
+								<label class="input-group-text" for="memberState2" style="width:105px;">회원상태</label>
 							</div>
-							<select class="custom-select bmInput" id="boardState2">
+							<select class="custom-select bmInput" id="memberState2">
 								<option value="NORMAL">정상</option>
 								<option value="BLOCK">관리자 삭제</option>
+								<option value="PWLOCK">비밀번호 3회 이상 불일치</option>
+							</select>
+						</div>
+						<div class="input-group mb-3">
+							<div class="input-group-prepend">
+								<label class="input-group-text" for="adminState2" style="width:105px;">관리자상태</label>
+							</div>
+							<select class="custom-select bmInput" id="adminState2">
+								<option value="NORMAL">정상</option>
+								<option value="BLOCK">관리자 삭제</option>
+								<option value="PWLOCK">비밀번호 3회 이상 불일치</option>
 							</select>
 						</div>
 					</div>
@@ -231,18 +292,26 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 						</button>
-						<h4 class="modal-title custom_align" id="Heading">게시판 삭제</h4>
+						<h4 class="modal-title custom_align" id="Heading">회원 삭제</h4>
 					</div>
 					<div class="modal-body">
 						<div class="alert alert-danger">
-							<span class="glyphicon glyphicon-warning-sign" id="msg">게시판을 삭제하시겠습니까?</span>
+							<span class="glyphicon glyphicon-warning-sign" id="msg">회원을 삭제하시겠습니까?</span>
 						</div>
 					</div>
 					<div class="modal-footer ">
-						<button type="button" class="btn btn-danger" id="goDelete">
-							<input type="hidden" class="bmInput" id="boardIdx3"/>
-							<input type="hidden" class="bmInput" id="boardState3"/>
-							<span class="glyphicon glyphicon-ok-sign">Yes</span>
+						<input type="hidden" class="bmInput" id="memberIdx3"/>
+						<input type="hidden" class="bmInput" id="memberState3"/>
+						<input type="hidden" class="bmInput" id="adminState3"/>
+						<input type="hidden" class="bmInput" id="divn3"/>
+						<button type="button" class="btn btn-danger member" id="goDelete">
+							<span class="glyphicon glyphicon-ok-sign">회원만</span>
+						</button>
+						<button type="button" class="btn btn-danger admin" id="goDelete">
+							<span class="glyphicon glyphicon-ok-sign">관리자만</span>
+						</button>
+						<button type="button" class="btn btn-danger both" id="goDelete">
+							<span class="glyphicon glyphicon-ok-sign">둘 다</span>
 						</button>
 						<button type="button" class="btn btn-default" data-dismiss="modal">
 							<span class="glyphicon glyphicon-remove">No</span>
@@ -304,18 +373,17 @@
 		$(document).ready(function(){
 			var pageSize = 10;
 			var pageNum = 1;
-			
-			var dupCheck = false;
-			/* 모든 게시판의 데이터 조회
+			var emailCheck = false;
+			/* 모든 회원의 데이터 조회
 			   page : 페이지 번호
 			   paging : 초기화 여부
 			*/
 			var getList = function(paging){
    				var data = null;
    				$.ajax({
-     			      url:"/bmboard/boards"
+     			      url:"/bmboard/members"
      			    , async:true
-     			    , type:'GET'
+     			    , type:'POST'
      			    , data: {
      			    	  pageSize:pageSize
      			    	, pageNum:(pageNum - 1)
@@ -338,8 +406,8 @@
      			});
    			}
 			
-			/* 게시판 데이터 테이블 추가
-			   data : 게시판 데이터
+			/* 회원 데이터 테이블 추가
+			   data : 회원 데이터
 			*/
 			var viewList = function(data){
 				$("#mytable tbody").children().remove();
@@ -348,12 +416,12 @@
    				for(var i = 0; i < data.numberOfElements; i++){
    					
 					html += "<tr>";
-					html += "<td><span class='d-inline-block text-truncate bmIdx' style='max-width: 30px;' title='" + data.content[i].boardIdx + "'>";
-					html += data.content[i].boardIdx + "</span></td>";
-					html += "<td><span class='d-inline-block text-truncate' style='max-width: 150px;' title='" + data.content[i].boardName + "'>";
-					html += data.content[i].boardName + "</span></td>";
-					html += "<td><span class='d-inline-block text-truncate' style='max-width: 80px;' title='" + data.content[i].boardDesc + "'>";
-					html += data.content[i].boardDesc + "</span></td>";
+					html += "<td><span class='d-inline-block text-truncate bmIdx' style='max-width: 30px;' title='" + data.content[i].memberIdx + "'>";
+					html += data.content[i].memberIdx + "</span></td>";
+					html += "<td><span class='d-inline-block text-truncate' style='max-width: 150px;' title='" + data.content[i].email + "'>";
+					html += data.content[i].email + "</span></td>";
+					html += "<td><span class='d-inline-block text-truncate' style='max-width: 80px;' title='" + data.content[i].name + "'>";
+					html += data.content[i].name + "</span></td>";
 					html += "<td>" + data.content[i].regDate.substr(0, 10) + "</td>";
 					html += "<td>" + data.content[i].modDate.substr(0, 10) + "</td>";
 					html += "<td>";
@@ -361,7 +429,7 @@
 					html += "<span data-feather='edit'></span>";
 					html += "</button>";
 					html += "</td>";
-					if(data.content[i].boardState == "NORMAL"){
+					if(data.content[i].adminState == "NORMAL" && data.content[i].memberState == "NORMAL"){
 						html += "<td>";
 						html += "<button type='button' id='buttonDelete' class='btn btn-danger btn-sm hide'>";
 						html += "<span data-feather='trash'></span>";
@@ -382,8 +450,8 @@
    				feather.replace();
 			};
 			
-			/* 게시판 데이터 페이징
-			   totalPages : 게시판 데이터 페이징 총 페이지 수
+			/* 회원 데이터 페이징
+			   totalPages : 회원 데이터 페이징 총 페이지 수
 			*/
 			var pagination = function(totalPages){
 				$('#pagination').twbsPagination({
@@ -399,12 +467,12 @@
 		        });
 			};
 			
-			/* 테이블의 게시판 수정 버튼 클릭 */
+			/* 테이블의 회원 수정 버튼 클릭 */
 			$(document).on("click", "#buttonEdit", function(){
 				var _tr = $(this).parent().parent();
-				var boardIdx = _tr.find(".bmIdx").text();
+				var memberIdx = _tr.find(".bmIdx").text();
 				$.ajax({
-	   			      url:"/bmboard/board/" + boardIdx
+	   			      url:"/bmboard/member/" + memberIdx
 	   			    , async:true
 	   			    , type:'GET'
 	   			    , data: {
@@ -413,14 +481,19 @@
 	   			    , success:function(data, msg, response) {
 	   			    	console.log(data);
 	   			    	if(data.resultVo.code == "0000"){
-		 					$("#dialogEdit #boardIdx1").val(data.board.boardIdx);
-		 					$("#dialogEdit #boardName1").val(data.board.boardName);
-		 					$("#dialogEdit #boardDesc1").val(data.board.boardDesc);
-		 					$("#dialogEdit #regDate1").val(data.board.regDate.substr(0, 10) + " " + data.board.regDate.substr(11, 8));
-		 					$("#dialogEdit #regAdmin1").val(data.board.regAdmin);
-		 					$("#dialogEdit #modDate1").val(data.board.modDate.substr(0, 10) + " " + data.board.modDate.substr(11, 8));
-		 					$("#dialogEdit #modAdmin1").val(data.board.modAdmin);
-		 					$('#dialogEdit #boardState1').find('option[value="' + data.board.boardState + '"]').attr("selected",true);
+		 					$("#dialogEdit #memberIdx1").val(data.member.memberIdx);
+		 					$("#dialogEdit #name1").val(data.member.name);
+		 					$("#dialogEdit #email1").val(data.member.email);
+		 					$('#dialogEdit #auth1').find('option[value="' + data.member.auth + '"]').attr("selected",true);
+		 					$("#dialogEdit #ranking1").val(data.member.ranking);
+		 					$("#dialogEdit #regDate1").val(data.member.regDate.substr(0, 10) + " " + data.member.regDate.substr(11, 8));
+		 					$("#dialogEdit #regAdmin1").val(data.member.regAdmin);
+		 					$("#dialogEdit #modDate1").val(data.member.modDate.substr(0, 10) + " " + data.member.modDate.substr(11, 8));
+		 					$("#dialogEdit #modAdmin1").val(data.member.modAdmin);
+		 					$('#dialogEdit #memberState1').find('option[value="' + data.member.memberState + '"]').attr("selected",true);
+		 					$('#dialogEdit #adminState1').find('option[value="' + data.member.adminState + '"]').attr("selected",true);
+		 					$("#dialogEdit #memberTry1").val(data.member.memberTry);
+		 					$("#dialogEdit #adminTry1").val(data.member.adminTry);
 	   			    		$('#dialogEdit').modal('show');
 	   			    	}else{
 	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
@@ -443,12 +516,15 @@
 				}
 				
 				$.ajax({
-	   			      url:"/bmboard/board/" + _dialog.find("#boardIdx1").val()
+	   			      url:"/bmboard/member/" + _dialog.find("#memberIdx1").val()
 	   			    , async:true
 	   			    , type:'PUT'
 	   			    , data: {
-	   			    	  boardDesc:_dialog.find("#boardDesc1").val()
-	   			    	, boardState:_dialog.find("#boardState1").val()
+	   			    	  auth:$("#dialogEdit #auth1").val()
+	   			    	, memberState:_dialog.find("#memberState1").val()
+	   			    	, adminState:_dialog.find("#adminState1").val()
+	   			    	, memberTry:_dialog.find("#memberTry1").val()
+	   			    	, adminTry:_dialog.find("#adminTry1").val()
 	   			    	, _csrf:$("#csrf").val()
 	   			    }
 	   			    , dataType:'json'
@@ -457,7 +533,6 @@
 	   			    		_dialog.modal('hide');
 	   			    		$('#dialogComplete #msg').html("수정됐습니다.");
 	   			    		$('#dialogComplete').modal('show');
-	   			    		getList(true);
 	   			    	}else{
 	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
 				    		$('#dialogAlert').modal('show');
@@ -470,44 +545,72 @@
 				});
 			});
 			
-			/* 게시판 등록 버튼 클릭 */
+			/* 수정 dialog에 비밀번호 초기화 버튼 클릭 */
+			$('#goInitPassword').on('click', function(){
+				var _dialog = $("#dialogEdit");
+				$.ajax({
+	   			      url:"/bmboard/member/" + _dialog.find("#memberIdx1").val()
+	   			    , async:true
+	   			    , type:'POST'
+	   			    , data: {
+	   			    	_csrf:$("#csrf").val()
+	   			    }
+	   			    , dataType:'json'
+	   			    , success:function(data, msg, response) {
+   			    		if(data.resultVo.code == "0000"){
+   			    			_dialog.modal('hide');
+   			    			$('#dialogComplete #msg').html("비밀번호 초기화됐습니다.");
+   	   			    		$('#dialogComplete').modal('show');
+	   			    	}else{
+	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
+				    		$('#dialogAlert').modal('show');
+	   			    	}
+	   			    }
+	   			    , error:function(e) {
+	   			    	$('#dialogAlert #msg').html("비밀번호 초기화에 실패했습니다. 개발팀에 문의해주세요.");
+			    		$('#dialogAlert').modal('show');
+	   			    }
+				});
+			});
+			
+			/* 회원 등록 버튼 클릭 */
 			$("#buttonRegister").on("click", function(){
 				$('#dialogRegister').modal('show');
 			});
 			
-			/* 게시판 등록 버튼 onkeyup */
-			$("#boardName2").on("keyup", function(){
-				dupCheck = false;
+			/* 회원 등록 버튼 onkeyup */
+			$("#email2").on("keyup", function(){
+				emailCheck = false;
 			});
 			
-			/* 등록 dialog에 게시판명 중복체크 버튼 클릭 */
-			$('#goDupCheck').on('click', function(){
+			/* 등록 dialog에 이메일 중복체크 버튼 클릭 */
+			$('#goEmailCheck').on('click', function(){
 				var _dialog = $("#dialogRegister");
 				
 				$.ajax({
-	   			      url:"/bmboard/board"
+	   			      url:"/bmboard/member"
 	   			    , async:true
 	   			    , type:'PUT'
 	   			    , data: {
-						  email:_dialog.find("#boardName2").val()
+						  email:_dialog.find("#email2").val()
 	   			    	, _csrf:$("#csrf").val()
 	   			    }
 	   			    , dataType:'json'
 	   			    , success:function(data, msg, response) {
 	   			    	console.log(data);
 	   			    	if(data.resultVo.code == "0000"){
-	 			    		$('#dialogComplete #msg').html("등록 가능한 게시판명입니다.");
+	 			    		$('#dialogComplete #msg').html("등록 가능한 회원이메일입니다.");
 	   			    		$('#dialogComplete').modal('show');
-	   			    		dupCheck = true;
+		   			    	emailCheck = true;
 	   			    	}else{
 	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
 	 			    		$('#dialogAlert').modal('show');
-	 			    		dupCheck = false;
+	 			    		emailCheck = false;
 	   			    	}
 	   			    }
 	   			    , error:function(data, msg, response) {
 	   			    	console.log("error");
- 			    		$('#dialogAlert #msg').html("게시판명 중복체크에 실패했습니다. 개발팀에 문의해주세요.");
+ 			    		$('#dialogAlert #msg').html("이메일 중복체크에 실패했습니다. 개발팀에 문의해주세요.");
  			    		$('#dialogAlert').modal('show');
 	   			    }
 				});
@@ -523,13 +626,15 @@
 				}
 				
 				$.ajax({
-	   			      url:"/bmboard/board/"
+	   			      url:"/bmboard/member/"
 	   			    , async:true
 	   			    , type:'POST'
 	   			    , data: {
-						  boardName:_dialog.find("#boardName2").val()
-	   			    	, boardDesc:_dialog.find("#boardDesc2").val()
-	   			    	, boardState:_dialog.find("#boardState2").val()
+						  name:_dialog.find("#name2").val()
+	   			    	, email:_dialog.find("#email2").val()
+	   			    	, auth:_dialog.find("#auth2").val()
+	   			    	, memberState:_dialog.find("#memberState2").val()
+	   			    	, adminState:_dialog.find("#adminState2").val()
 	   			    	, _csrf:$("#csrf").val()
 	   			    }
 	   			    , dataType:'json'
@@ -539,6 +644,7 @@
    			    			_dialog.modal('hide');
    			    			$('#dialogComplete #msg').html("등록됐습니다.");
    	   			    		$('#dialogComplete').modal('show');
+   	   			    		pageNum = 1;
    	   			    		getList(true);
 	   			    	}else{
 	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
@@ -557,22 +663,54 @@
 			   _dialog : 체크할 dialog의 jquery object
 			*/
 			var validCheck = function(_dialog){
+				if(_dialog.attr("id") == "dialogEdit"){
+					if(!$.isNumeric(_dialog.find("#memberTry1").val())){
+						$('#dialogAlert #msg').html("회원 로그인 시도 횟수는 숫자로 입력해주세요.");
+			    		$('#dialogAlert').modal('show');
+			    		return false;
+					}else if((_dialog.find("#memberTry1").val() * 1) > 5 || (_dialog.find("#memberTry1").val() * 1) < 0){
+						$('#dialogAlert #msg').html("회원 로그인 시도 횟수는 0~5 사이값으로 입력해주세요.");
+			    		$('#dialogAlert').modal('show');
+			    		return false;
+					}else if(!$.isNumeric(_dialog.find("#adminTry1").val())){
+						$('#dialogAlert #msg').html("관리자 로그인 시도 횟수는 숫자로 입력해주세요.");
+			    		$('#dialogAlert').modal('show');
+			    		return false;
+					}else if((_dialog.find("#adminTry1").val() * 1) > 5 || (_dialog.find("#adminTry1").val() * 1) < 0){
+						$('#dialogAlert #msg').html("관리자 로그인 시도 횟수는 0~5 사이값으로 입력해주세요.");
+			    		$('#dialogAlert').modal('show');
+			    		return false;
+					}
+				}
+				
 				if(_dialog.attr("id") == "dialogRegister"){
 					var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-					if(_dialog.find("#boardName2").val() == ""){
-						$('#dialogAlert #msg').html(_dialog.find("#boardName2").attr("aria-label") + "을 입력해주세요.");
+					if(_dialog.find("#name2").val() == ""){
+						$('#dialogAlert #msg').html(_dialog.find("#name2").attr("aria-label") + "을 입력해주세요.");
 			    		$('#dialogAlert').modal('show');
 			    		return false;
-					}else if(!dupCheck){
-						$('#dialogAlert #msg').html("정상적으로 게시판명 중복체크를 완료해주세요.");
+					}else if(_dialog.find("#email2").val() == ""){
+						$('#dialogAlert #msg').html(_dialog.find("#email2").attr("aria-label") + "을 입력해주세요.");
 			    		$('#dialogAlert').modal('show');
 			    		return false;
-					}else if(_dialog.find("#boardDesc2").val() == ""){
-						$('#dialogAlert #msg').html(_dialog.find("#boardDesc2").attr("aria-label") + "을 입력해주세요.");
+					}else if(!regExp.test(_dialog.find("#email2").val())){
+						$('#dialogAlert #msg').html(_dialog.find("#email2").attr("aria-label") + "의 형식이 맞지 않습니다.");
 			    		$('#dialogAlert').modal('show');
 			    		return false;
-					}else if(_dialog.find("#boardState2").val() == ""){
-						$('#dialogAlert #msg').html(_dialog.find("#boardState2").attr("aria-label") + "을 입력해주세요.");
+					}else if(!emailCheck){
+						$('#dialogAlert #msg').html("정상적으로 회원이메일 중복체크를 완료해주세요.");
+			    		$('#dialogAlert').modal('show');
+			    		return false;
+					}else if(_dialog.find("#auth2").val() == ""){
+						$('#dialogAlert #msg').html(_dialog.find("#auth2").attr("aria-label") + "을 입력해주세요.");
+			    		$('#dialogAlert').modal('show');
+			    		return false;
+					}else if(_dialog.find("#memberState2").val() == ""){
+						$('#dialogAlert #msg').html(_dialog.find("#memberState2").attr("aria-label") + "을 입력해주세요.");
+			    		$('#dialogAlert').modal('show');
+			    		return false;
+					}else if(_dialog.find("#adminState2").val() == ""){
+						$('#dialogAlert #msg').html(_dialog.find("#adminState2").attr("aria-label") + "을 입력해주세요.");
 			    		$('#dialogAlert').modal('show');
 			    		return false;
 					}
@@ -581,50 +719,73 @@
 				return true;
 			};
 			
-			/* 테이블의 게시판 삭제 버튼 클릭 */
+			/* 테이블의 회원 삭제 버튼 클릭
+			*/
 			$(document).on("click", "#buttonDelete", function(){
 				var _tr = $(this).parent().parent();
-				var boardIdx = _tr.find(".bmIdx").text();
+				var memberIdx = _tr.find(".bmIdx").text();
 				
-				$('#boardIdx3').val(boardIdx);
+				$('#memberIdx3').val(memberIdx);
+				
 				if($(this).hasClass("show")){
-					$('#boardState3').val("NORMAL");
-					$('#dialogDelete #msg').html("게시판을 복원하시겠습니까?");
-					$('#goDelete').removeClass("hide");
-					$('#goDelete').addClass("show");
+					$('#dialogDelete #msg').html("회원을 복원하시겠습니까?");
+					$('#dialogDelete #divn3').val("show");
 				}else if($(this).hasClass("hide")){
-					$('#boardState3').val("BLOCK");
-					$('#dialogDelete #msg').html("게시판을 삭제하시겠습니까?");
-					$('#goDelete').removeClass("show");
-					$('#goDelete').addClass("hide");
+					$('#dialogDelete #msg').html("회원을 삭제하시겠습니까?");
+					$('#dialogDelete #divn3').val("hide");
 				}
 				
 				$('#dialogDelete').modal('show');
 			});
 			
 			/* 삭제 dialog에 yes 버튼 클릭 */
-			$('#goDelete').on('click', function(){
+			$(document).on('click', '#goDelete', function(){
 				var _dialog = $("#dialogDelete");
-				var _this = $(this);
+				
+				if(_dialog.find('#divn3').val() == "show"){
+					if($(this).hasClass("member")){
+						_dialog.find('#memberState3').val("NORMAL");
+						_dialog.find('#adminState3').val("BLOCK");
+					}else if($(this).hasClass("admin")){
+						_dialog.find('#memberState3').val("BLOCK");
+						_dialog.find('#adminState3').val("NORMAL");
+					}else if($(this).hasClass("both")){
+						_dialog.find('#memberState3').val("NORMAL");
+						_dialog.find('#adminState3').val("NORMAL");
+					}
+				}else if(_dialog.find('#divn3').val() == "hide"){
+					if($(this).hasClass("member")){
+						_dialog.find('#memberState3').val("BLOCK");
+						_dialog.find('#adminState3').val("NORMAL");
+					}else if($(this).hasClass("admin")){
+						_dialog.find('#memberState3').val("NORMAL");
+						_dialog.find('#adminState3').val("BLOCK");
+					}else if($(this).hasClass("both")){
+						_dialog.find('#memberState3').val("BLOCK");
+						_dialog.find('#adminState3').val("BLOCK");
+					}
+				}
 				
 				$.ajax({
-	   			      url:"/bmboard/board/" + _dialog.find("#boardIdx3").val()
+	   			      url:"/bmboard/member/" + _dialog.find("#memberIdx3").val()
 	   			    , async:true
 	   			    , type:'DELETE'
 	   			    , data: {
 	   			    	  _csrf:$("#csrf").val()
-	   			    	, boardState:_dialog.find("#boardState3").val()
+	   			    	, memberState:_dialog.find('#memberState3').val()
+	   			    	, adminState:_dialog.find('#adminState3').val()
 	   			    }
 	   			    , dataType:'json'
 	   			    , success:function(data, msg, response) {
    			    		if(data.resultVo.code == "0000"){
    			    			_dialog.modal('hide');
-   			    			if(_this.hasClass("show")){
+   			    			if(_dialog.find('#divn3').val() == "show"){
    			    				$('#dialogComplete #msg').html("복원됐습니다.");
-   							}else if(_this.hasClass("hide")){
+	   	   			    		$('#dialogComplete').modal('show');
+   			    			}else if(_dialog.find('#divn3').val() == "hide"){
 	   			    			$('#dialogComplete #msg').html("삭제됐습니다.");
-   							}
-   			    			$('#dialogComplete').modal('show');
+	   	   			    		$('#dialogComplete').modal('show');
+   			    			}
    	   			    		getList(true);
 	   			    	}else{
 	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);

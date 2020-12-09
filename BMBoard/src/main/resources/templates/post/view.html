@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+		<meta name="generator" content="Jekyll v4.1.1">
+		<title>BMBoard Admin</title>
+		<link href="/bmboard/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="/bmboard/css/dashboard/dashboard.css" rel="stylesheet">
+	</head>
+	<body>
+		<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
+			<a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">BMBoard Admin</a>
+			<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+			<!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> -->
+			<ul class="navbar-nav px-3">
+				<li class="nav-item text-nowrap">
+					<a class="nav-link" href="/bmboard/logout">Log out</a>
+				</li>
+			</ul>
+		</nav>
+
+		<div class="container container-fluid">
+			<div class="row">
+				<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
+					<div class="sidebar-sticky pt-3">
+						<ul class="nav flex-column">
+							<li class="nav-item">
+								<a class="nav-link" href="/bmboard/member/list.html">
+									<span data-feather="users"></span>
+									사용자 관리
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/bmboard/board/list.html">
+									<span data-feather="clipboard"></span>
+									게시판 관리
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link active" href="/bmboard/post/list.html">
+									<span data-feather="file-text"></span>
+									게시물 관리
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">
+									<span data-feather="trending-up"></span>
+									통계 데이터
+								</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				
+				
+				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
+					<nav aria-label="breadcrumb" class="mt-3 mb-5">
+						<ol class="breadcrumb">
+							<li class="breadcrumb-item"><a href="#">test</a></li>
+							<li class="breadcrumb-item"><a href="#">asdf</a></li>
+							<li class="breadcrumb-item active" aria-current="page">Data</li>
+						</ol>
+					</nav>
+					<div class="container">
+						<div class="row">
+							<div class="col-8">
+								<p class="text-justify mt-3" id="postTitle1"></p>
+							</div>
+							<div class="col-4">
+								<p class="text-right mt-3" id="regDate1"></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-8 border-top" id="email1"></div>
+							<div class="col-4 border-top">
+								<p class="text-right mt-3" id="postCnt1"></p>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-12 border-top">
+								<p class="text-justify mt-5 mb-5" id="postContents1"></p>
+							</div>
+						</div>
+						<div class="row" id="commentList">
+						</div>
+						<div class="row">
+							<div class="col-12">
+								<p class="text-right mt-5 mb-5">
+									<button type='button' id='buttonToList' class='btn btn-info btn-sm'>
+										<span data-feather='edit'></span>목록
+									</button>
+								</p>
+							</div>
+						</div>
+					</div>
+				</main>
+			</div>
+		</div>
+		
+		<div class="modal fade" id="dialogDelete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">댓글 관리</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-danger">
+							<span class="glyphicon glyphicon-warning-sign" id="msg"></span>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<input type="hidden" class="bmInput" id="postIdx3"/>
+						<input type="hidden" class="bmInput" id="postState3"/>
+						<input type="hidden" class="bmInput" id="commentIdx3"/>
+						<input type="hidden" class="bmInput" id="commentState3"/>
+						<button type="button" class="btn btn-danger" id="goDelete">
+							<span class="glyphicon glyphicon-ok-sign">Yes</span>
+						</button>
+						<button type="button" class="btn btn-default" data-dismiss="modal">
+							<span class="glyphicon glyphicon-remove">No</span>
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+				
+		<div class="modal fade" tabindex="-1" id="dialogAlert" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">오류 발생</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-danger">
+							<span class="glyphicon glyphicon-warning-sign" id="msg"></span>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		<input type="hidden" id="boardPageNum" th:name="boardPageNum" th:value="${boardPageNum}"/>
+		<input type="hidden" id="boardPageSize" th:name="boardPageSize" th:value="${boardPageSize}"/>
+		<input type="hidden" id="postPageNum" th:name="postPageNum" th:value="${postPageNum}"/>
+		<input type="hidden" id="postPageSize" th:name="postPageSize" th:value="${postPageSize}"/>
+		<input type="hidden" id="boardIdx" th:name="boardIdx" th:value="${boardIdx}"/>
+		<input type="hidden" id="postIdx" th:name="postIdx" th:value="${postIdx}"/>
+	</body>
+	<script src="/bmboard/js/jquery/jquery.min.js"></script>
+	<script src="/bmboard/js/bootstrap/bootstrap.bundle.min.js"></script>
+	<script src="/bmboard/js/dashboard/feather.min.js"></script>
+	<script src="/bmboard/js/dashboard/commons.js"></script>
+	<script src="/bmboard/js/jquery/jquery.twbsPagination.js"></script>
+	<script>
+		$(document).ready(function(){
+			var commentPageNum = 0;
+			var commentPageSize = 10;
+			var postIdx = null;
+			
+			var init = function(){
+				getPostDetail();
+			};
+			
+			var getPostDetail = function(){
+				$.ajax({
+	   			      url:"/bmboard/post/" + $('#postIdx').val()
+	   			    , async:true
+	   			    , type:'GET'
+	   			    , data: {
+	   			    }
+	   			    , dataType:'json'
+	   			    , success:function(data, msg, response) {
+	   			    	console.log(data);
+	   			    	var commentStr = "";
+	   			    	if(data.resultVo.code == "0000"){
+		 					$("#boardName1").text(data.post.boardEntity.boardName);
+		 					$("#postTitle1").text(data.post.postTitle);
+		 					/* $("#postTitle1").attr("data", data.post.postIdx); */
+		 					$("#postIdx1").text(data.post.postIdx);
+		 					$("#email1").html(getUserComp(data.post.memberEntity.email, 1));
+		 					$("#regDate1").text("작성일 " + data.post.regDate.substr(0, 10) + " " + data.post.regDate.substr(11, 8));
+		 					$("#modDate1").text(data.post.modDate.substr(0, 10) + " " + data.post.modDate.substr(11, 8));
+		 					$("#modAdmin1").text(data.post.modAdmin);
+		 					$('#postState1').find('option[value="' + data.post.postState + '"]').attr("selected",true);
+		 					$("#postContents1").html(data.post.postContents);
+		 					$("#postCnt1").text(data.post.postCnt);
+		 					postIdx = data.post.postIdx;
+		 					getCommentList(false);
+		 					
+		 					feather.replace();
+	   			    	}else{
+	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
+				    		$('#dialogAlert').modal('show');
+	   			    	}
+	   			    }
+	   			    , error:function(e) {
+	   			    	$('#dialogAlert #msg').html("정상적으로 조회되지 않았습니다. 다시 조회해주세요.");
+	  			    		$('#dialogAlert').modal('show');
+	   			    }
+				});
+			};
+			
+			var getCommentList = function(isReload){
+				$.ajax({
+	   			      url:"/bmboard/comments"
+	   			    , async:true
+	   			    , type:'POST'
+	   			    , data: {
+	   			    	  _csrf:$('#csrf').val()
+	   			    	, postIdx:postIdx
+	   			    	, pageNum:commentPageNum
+	   			    	, pageSize:commentPageSize
+	   			    }
+	   			    , dataType:'json'
+	   			    , success:function(data, msg, response) {
+	   			    	console.log("여기다");
+	   			    	console.log(data);
+	   			    	getCommentCompList(data, isReload);
+		 					
+	 					feather.replace();
+	   			    }
+	   			    , error:function(e) {
+	   			    	$('#dialogAlert #msg').html("정상적으로 조회되지 않았습니다. 다시 조회해주세요.");
+	  			    		$('#dialogAlert').modal('show');
+	   			    }
+				});
+			};
+			
+			$(document).on("click", "#moreComment", function(){
+				commentPageNum++;
+				getCommentList(false);
+			});
+			
+			$(document).on("click", "#buttonComDelete", function(){
+				$('#goDelete').removeClass("show");
+				$('#goDelete').removeClass("hide");
+				
+				if($(this).hasClass("show")){
+					$('#goDelete').addClass("show");
+					$('#dialogDelete #msg').text("복원하시겠습니까?");
+					
+				}else if($(this).hasClass("hide")){
+					$('#goDelete').addClass("hide");
+					$('#dialogDelete #msg').text("삭제하시겠습니까?");
+				}
+				
+				$('#commentIdx3').val($(this).attr("data"));
+				
+				$("#dialogDelete").modal('show');
+			});
+			
+			/* 삭제 dialog에 yes 버튼 클릭 */
+			$('#goDelete').on('click', function(){
+				var _dialog = $("#dialogDelete");
+				var _this = $(this);
+				var commentState = "BLOCK";
+				
+				if($(this).hasClass("show")){
+					commentState = "NORMAL";
+				}
+				
+				$.ajax({
+	   			      url:"/bmboard/comment/" + _dialog.find("#commentIdx3").val()
+	   			    , async:true
+	   			    , type:'DELETE'
+	   			    , data:{
+							  _csrf:$("#csrf").val()
+			   				, commentState:commentState
+						}
+	   			    , dataType:'json'
+	   			    , success:function(data, msg, response) {
+   			    		if(data.resultVo.code == "0000"){
+   			    			_dialog.modal('hide');
+   	   			    		getCommentList(true);
+	   			    	}else{
+	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
+	 			    		$('#dialogAlert').modal('show');
+	   			    	}
+	   			    }
+	   			    , error:function(e) {
+	   			    	$('#dialogAlert #msg').html("삭제에 실패했습니다. 개발팀에 문의해주세요.");
+			    		$('#dialogAlert').modal('show');
+	   			    }
+				});
+			});
+			
+			$('#buttonToList').on("click", function(){
+				location.href="/bmboard/post/list.html";
+			});
+			
+			init();
+		});
+	</script>
+</html>

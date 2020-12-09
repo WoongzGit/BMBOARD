@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="ko">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="">
+		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
+		<meta name="generator" content="Jekyll v4.1.1">
+		<title>BMBoard Admin</title>
+		<link href="/bmboard/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+		<!-- Custom styles for this template -->
+		<link href="/bmboard/css/dashboard/dashboard.css" rel="stylesheet">
+		<script src="/bmboard/js/jquery/jquery.min.js"></script>
+		<script src="/bmboard/js/bootstrap/bootstrap.bundle.min.js"></script>
+	</head>
+	<body>
+		<div class="alert alert-danger" role="alert">
+		  접근 할 수 없는 페이지입니다.
+		</div>
+		
+		<button type="button" id="goLogin" class="btn btn-outline-danger">로그인 페이지로 이동</button>
+		
+		<script>
+			$(document).ready(function(){
+				$('#goLogin').on("click", function(){
+					location.href="/bmboard/login";
+				});
+			});
+		</script>
+	</body>
+</html>
