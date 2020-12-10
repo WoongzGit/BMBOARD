@@ -9,9 +9,5 @@ import com.bmboard.board.entity.BoardEntity;
 
 @Repository
 public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
-	Page<BoardEntity> findAll(Pageable pageable);
-	
-	Page<BoardEntity> findByBoardState(Pageable pageable, String boardState);
-	
-	BoardEntity findByBoardName(String boardName);
+	Page<BoardEntity> findByBoardStateOrderByRegDateAscBoardIdxAsc(Pageable pageable, String boardState);
 }

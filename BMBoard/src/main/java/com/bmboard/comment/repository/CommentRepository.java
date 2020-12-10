@@ -9,7 +9,7 @@ import com.bmboard.comment.entity.CommentEntity;
 
 @Repository
 public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
-	Page<CommentEntity> findByPostIdx(Pageable pageable, Long postIdx);
-
-	Page<CommentEntity> findAll(Pageable pageable);
+	Page<CommentEntity> findByPostIdxOrderByCommentOrderDesc(Pageable pageable, Long postIdx);
+	
+	Page<CommentEntity> findByCommentIdxOrderByCommentOrderDesc(Pageable pageable, Long commentIdx);
 }

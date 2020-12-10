@@ -1,645 +1,376 @@
-<!doctype html>
-<html lang="ko">
-	<head>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-		<meta name="description" content="">
-		<meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-		<meta name="generator" content="Jekyll v4.1.1">
-		<title>BMBoard Admin</title>
-		<link href="/bmboard/css/bootstrap/bootstrap.min.css" rel="stylesheet">
-		<!-- Custom styles for this template -->
-		<link href="/bmboard/css/dashboard/dashboard.css" rel="stylesheet">
-	</head>
-	<body>
-		<nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-			<a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="#">BMBoard Admin</a>
-			<button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<!-- <input class="form-control form-control-dark w-100" type="text" placeholder="Search" aria-label="Search"> -->
-			<ul class="navbar-nav px-3">
-				<li class="nav-item text-nowrap">
-					<a class="nav-link" href="/bmboard/logout">Log out</a>
-				</li>
-			</ul>
-		</nav>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<div class="container container-fluid">
-			<div class="row">
-				<nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
-					<div class="sidebar-sticky pt-3">
-						<ul class="nav flex-column">
+    <title>BMBoard</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="/bmboard/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    
+  </head>
+  <body>
+    <div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark static-top">
+					 
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="navbar-toggler-icon"></span>
+					</button> <a class="navbar-brand" href="#" id="test">BMBoard</a>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="navbar-nav">
 							<li class="nav-item">
-								<a class="nav-link" href="/bmboard/member/list.html">
-									<span data-feather="users"></span>
-									사용자 관리
-								</a>
+								<a class="nav-link" href="/bmboard/news/list.html">Hacker's News</a>
+							</li>
+							<li class="nav-item active">
+								<a class="nav-link" href="/bmboard/board/list.html">Boards <span class="sr-only">(current)</span></a>
+							</li>
+						</ul>
+						<ul class="navbar-nav ml-md-auto">
+							<li class="nav-item">
+								<a class="nav-link" href="/bmboard/mypage/view.html">myPage</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link active" href="/bmboard/board/list.html">
-									<span data-feather="clipboard"></span>
-									게시판 관리
-								</a>
+								<a class="nav-link" href="#">Logout</a>
 							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="/bmboard/post/list.html">
-									<span data-feather="file-text"></span>
-									게시물 관리
-								</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">
-									<span data-feather="trending-up"></span>
-									통계 데이터
-								</a>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbarDropdownMenuLink" data-toggle="dropdown">Login</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<form class="px-4 py-3">
+									<div class="form-group">
+										<label for="exampleDropdownFormEmail1">Email address</label>
+										<input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+									</div>
+									<div class="form-group">
+										<label for="exampleDropdownFormPassword1">Password</label>
+										<input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+									</div>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="dropdownCheck">
+										<label class="form-check-label" for="dropdownCheck">
+										Remember me
+										</label>
+									</div>
+									<button type="submit" class="btn btn-primary">Sign in</button>
+									</form>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#">New around here? Sign up</a>
+									<a class="dropdown-item" href="#">Forgot password?</a>
+								</div>
 							</li>
 						</ul>
 					</div>
 				</nav>
-		
-				<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4">
-					<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-						<h1 class="h2">게시판 관리</h1>
-						<div class="btn-toolbar mb-2 mb-md-0">
-							<div class="btn-group mr-2">
-								<button type="button" class="btn btn-sm btn-outline-secondary">
-								<span data-feather="download"></span>
-								엑셀 다운로드
-								</button>
-							</div>
-							<div class="btn-group mr-2">
-								<button type="button" class="btn btn-sm btn-outline-success" id="buttonRegister">
-								<span data-feather="plus-square"></span>
-								게시판 등록
-								</button>
-							</div>
-						</div>
-					</div>
-					
-					<div class="container">
-						<div class="row">
-							<div class="col-md-12">
-								<div class="table-responsive">
-									<table id="mytable" class="table table-bordred table-striped table-sm">
-										<thead>
-											<th>순번</th>
-											<th>게시판명</th>
-											<th>설명</th>
-											<th>등록일자</th>
-											<th>수정일자</th>
-											<th>수정</th>
-											<th>삭제</th>
-										</thead>
-										<tbody>
-										</tbody>
-									</table>
-									
-									<nav aria-label="Page navigation example">
-										<ul id="pagination" class="pagination justify-content-center">
-										</ul>
-									</nav>
-								</div>
-							</div>
-						</div>
-					</div>
-				</main>
-			</div>
-		</div>
-		
-		<div class="modal fade" id="dialogEdit" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-						</button>
-						<h4 class="modal-title custom_align" id="Heading">게시판 정보 수정</h4>
-					</div>
-					<div class="modal-body">
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanBoardIdx1" style="width:105px;">게시판순번</span>
-							</div>
-							<input type="text" class="form-control bmInput" id="boardIdx1" disabled="true" aria-label="게시판순번" aria-describedby="게시판순번">
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanBoardName1" style="width:105px;">게시판명</span>
-							</div>
-							<input type="text" class="form-control bmInput" id="boardName1" disabled="true" aria-label="게시판명" aria-describedby="게시판명">
-						</div>
-						<div class="input-group">
-							<div class="input-group-prepend">
-								<span class="input-group-text">게시판설명</span>
-							</div>
-						</div>
-						<div class="input-group">
-							<textarea class="form-control" id="boardDesc1" rows="5" aria-label="With textarea"></textarea>
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanRegDate1" style="width:105px;">등록일자</span>
-							</div>
-							<input type="text" class="form-control bmInput" id="regDate1" disabled="true" aria-label="등록일자" aria-describedby="등록일자">
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanRegAdmin1" style="width:105px;">등록관리자</span>
-							</div>
-							<input type="text" class="form-control bmInput" id="regAdmin1" disabled="true" aria-label="등록관리자" aria-describedby="등록관리자">
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanmModDate1" style="width:105px;">수정일자</span>
-							</div>
-							<input type="text" class="form-control bmInput" id="modDate1" disabled="true" aria-label="수정일자" aria-describedby="수정일자">
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanModAdmin1" style="width:105px;">수정관리자</span>
-							</div>
-							<input type="text" class="form-control bmInput" id="modAdmin1" disabled="true" aria-label="수정관리자" aria-describedby="수정관리자">
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<label class="input-group-text" for="boardState1" style="width:105px;">게시판상태</label>
-							</div>
-							<select class="custom-select bmInput" id="boardState1">
-								<option value="NORMAL">정상</option>
-								<option value="BLOCK">관리자 삭제</option>
-							</select>
-						</div>
-					</div>
-					<div class="modal-footer ">
-						<button type="button" class="btn btn-warning btn-lg" id="goUpdate"style="width: 100%;">
-							<span class="glyphicon glyphicon-ok-sign">Update</span>
-						</button>
-					</div>
+				<div class="jumbotron">
+					<h2>
+						안녕, 게시판!
+					</h2>
+					<p>
+						게시판을 선택해 게시물을 올려보아요!
+					</p>
 				</div>
 			</div>
 		</div>
-		
-		<div class="modal fade" id="dialogRegister" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-						</button>
-						<h4 class="modal-title custom_align" id="Heading">게시판 등록</h4>
-					</div>
-					<div class="modal-body">
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanBoardName2" style="width:105px;">게시판명</span>
-							</div>
-							<input type="text" class="form-control bmInput" id="boardName2" aria-label="게시판명" aria-describedby="게시판명">
-							<div class="input-group-append">
-								<button class="btn btn-outline-warning" type="button" id="goDupCheck">중복확인</button>
-							</div>
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<span class="input-group-text" id="spanBoardDesc2" style="width:105px;">게시판설명</span>
-							</div>
-							<input type="text" class="form-control bmInput" id="boardDesc2" aria-label="게시판설명" aria-describedby="게시판설명">
-						</div>
-						<div class="input-group mb-3">
-							<div class="input-group-prepend">
-								<label class="input-group-text" for="boardState2" style="width:105px;">게시판상태</label>
-							</div>
-							<select class="custom-select bmInput" id="boardState2">
-								<option value="NORMAL">정상</option>
-								<option value="BLOCK">관리자 삭제</option>
-							</select>
-						</div>
-					</div>
-					<div class="modal-footer ">
-						<button type="button" class="btn btn-warning btn-lg" id="goRegister"style="width: 100%;">
-							<span class="glyphicon glyphicon-ok-sign">Register</span>
-						</button>
-					</div>
-				</div>
+		<div class="row">
+			<div class="col-md-12">
+				<nav class="border-bottom mb-5">
+					<ul class="pagination justify-content-center" id="boardNav">
+						<li class="page-item">
+							<a class="page-link" href="#">Previous</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="#">1</a>
+						</li>
+						<li class="page-item">
+							<a class="page-link" href="#">Next</a>
+						</li>
+					</ul>
+				</nav>
 			</div>
 		</div>
-		
-		<div class="modal fade" id="dialogDelete" tabindex="-1" role="dialog" aria-labelledby="edit" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-						</button>
-						<h4 class="modal-title custom_align" id="Heading">게시판 삭제</h4>
-					</div>
-					<div class="modal-body">
-						<div class="alert alert-danger">
-							<span class="glyphicon glyphicon-warning-sign" id="msg">게시판을 삭제하시겠습니까?</span>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
+					<h1 class="h2" id="spanBoardTitle">사용자 관리</h1>
+					<div class="btn-toolbar mb-2 mb-md-0">
+						<div class="btn-group mr-2">
+							<button type="button" class="btn btn-sm btn-outline-success" id="buttonRegister">
+							<span data-feather="plus-square"></span>
+							글 작성
+							</button>
 						</div>
 					</div>
-					<div class="modal-footer ">
-						<button type="button" class="btn btn-danger" id="goDelete">
-							<input type="hidden" class="bmInput" id="boardIdx3"/>
-							<input type="hidden" class="bmInput" id="boardState3"/>
-							<span class="glyphicon glyphicon-ok-sign">Yes</span>
-						</button>
-						<button type="button" class="btn btn-default" data-dismiss="modal">
-							<span class="glyphicon glyphicon-remove">No</span>
-						</button>
-					</div>
 				</div>
+				<table class="table table-hover table-sm" id="postTable">
+					<thead>
+						<tr>
+							<th>
+								제목
+							</th>
+							<th>
+								작성자
+							</th>
+							<th>
+								조회수
+							</th>
+							<th>
+								작성일
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<nav aria-label="Page navigation example">
+					<ul id="pagination" class="pagination justify-content-center">
+					</ul>
+				</nav>
 			</div>
 		</div>
-		
-		<div class="modal fade" tabindex="-1" id="dialogAlert" role="dialog" aria-labelledby="edit" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-						</button>
-						<h4 class="modal-title custom_align" id="Heading">오류 발생</h4>
-					</div>
-					<div class="modal-body">
-						<div class="alert alert-danger">
-							<span class="glyphicon glyphicon-warning-sign" id="msg"></span>
-						</div>
-					</div>
-					<div class="modal-footer ">
-						<button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
-					</div>
-				</div>
-			</div>
-		</div>
-		
-		<div class="modal fade" tabindex="-1" id="dialogComplete" role="dialog" aria-labelledby="edit" aria-hidden="true">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-						</button>
-						<h4 class="modal-title custom_align" id="Heading">정상 처리</h4>
-					</div>
-					<div class="modal-body">
-						<div class="alert alert-success">
-							<span class="glyphicon glyphicon-warning-sign" id="msg"></span>
-						</div>
-					</div>
-					<div class="modal-footer ">
-						<button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
-					</div>
-				</div>
-			</div>
-		</div>
-		
+	</div>
+	
+	<form method="POST" action="/bmboard/post/view.html" id="formView">
 		<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-	</body>
-	<script src="/bmboard/js/jquery/jquery.min.js"></script>
-	<script src="/bmboard/js/bootstrap/bootstrap.bundle.min.js"></script>
-	<script src="/bmboard/js/dashboard/feather.min.js"></script>
-	<script src="/bmboard/js/jquery/jquery.twbsPagination.js"></script>
-	<script>
-		$(document).ready(function(){
-			var pageSize = 10;
-			var pageNum = 1;
-			
-			var dupCheck = false;
-			/* 모든 게시판의 데이터 조회
-			   page : 페이지 번호
-			   paging : 초기화 여부
-			*/
-			var getList = function(paging){
-   				var data = null;
-   				$.ajax({
-     			      url:"/bmboard/boards"
-     			    , async:true
-     			    , type:'GET'
-     			    , data: {
-     			    	  pageSize:pageSize
-     			    	, pageNum:(pageNum - 1)
-     			    	, _csrf:$("#csrf").val()
-     			    }
-     			    , dataType:'json'
-     			    , success:function(e) {
-     			    	data = e;
-     			    	
-     			    	viewList(data);
-     			    	
-     			    	if(paging){
-     			    		pagination(data.totalPages);
-     			    	}
-     			    	console.log(data);
-     			    }
-     			    , error:function(e) {
-     			    	console.log(e);
-     			    }
-     			});
-   			}
-			
-			/* 게시판 데이터 테이블 추가
-			   data : 게시판 데이터
-			*/
-			var viewList = function(data){
-				$("#mytable tbody").children().remove();
-   				
-   				var html = "";
-   				for(var i = 0; i < data.numberOfElements; i++){
-   					
-					html += "<tr>";
-					html += "<td><span class='d-inline-block text-truncate bmIdx' style='max-width: 30px;' title='" + data.content[i].boardIdx + "'>";
-					html += data.content[i].boardIdx + "</span></td>";
-					html += "<td><span class='d-inline-block text-truncate' style='max-width: 150px;' title='" + data.content[i].boardName + "'>";
-					html += data.content[i].boardName + "</span></td>";
-					html += "<td><span class='d-inline-block text-truncate' style='max-width: 80px;' title='" + data.content[i].boardDesc + "'>";
-					html += data.content[i].boardDesc + "</span></td>";
-					html += "<td>" + data.content[i].regDate.substr(0, 10) + "</td>";
-					html += "<td>" + data.content[i].modDate.substr(0, 10) + "</td>";
-					html += "<td>";
-					html += "<button type='button' id='buttonEdit' class='btn btn-info btn-sm'>";
-					html += "<span data-feather='edit'></span>";
-					html += "</button>";
-					html += "</td>";
-					if(data.content[i].boardState == "NORMAL"){
-						html += "<td>";
-						html += "<button type='button' id='buttonDelete' class='btn btn-danger btn-sm hide'>";
-						html += "<span data-feather='trash'></span>";
-						html += "</button>";
-						html += "</td>";
-					}else{
-						html += "<td>";
-						html += "<button type='button' id='buttonDelete' class='btn btn-warning btn-sm show'>";
-						html += "<span data-feather='trash'></span>";
-						html += "</button>";
-						html += "</td>";
-					}
-					html += "</tr>";
-   				}
-   				
-   				$("#mytable tbody").html(html);
-   				
-   				feather.replace();
+		<input type="hidden" id="boardPageNum" th:name="boardPageNum" th:value="${boardPageNum}"/>
+		<input type="hidden" id="boardPageSize" th:name="boardPageSize" th:value="${boardPageSize}"/>
+		<input type="hidden" id="postPageNum" th:name="postPageNum" th:value="${postPageNum}"/>
+		<input type="hidden" id="postPageSize" th:name="postPageSize" th:value="${postPageSize}"/>
+		<input type="hidden" id="boardIdx" th:name="boardIdx" th:value="${boardIdx}"/>
+		<input type="hidden" id="postIdx" th:name="postIdx" th:value="${postIdx}"/>
+		<input type="submit"/> 
+	</form>
+
+    <script src="/bmboard/js/jquery/jquery.min.js"></script>
+    <script src="/bmboard/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/bmboard/js/dashboard/commons.js"></script>
+    <script src="/bmboard/js/dashboard/feather.min.js"></script>
+    <script src="/bmboard/js/jquery/jquery.twbsPagination.js"></script>
+    <script>
+	    $(document).ready(function(){
+			var boardPageNum = 0; // 게시판 페이징 현재 페이지 번호
+			var boardEleCnt = 0; // 게시판 element 개수
+			var boardPageSize = 5; // 게시판 페이징 페이지 사이즈
+			var boardIdx = 0; // 게시판 번호
+			var postPageSize = 10; // 게시물 페이지 사이즈
+			var postPageNum = 0; // 게시물 페이징 현재 페이지 번호
+			var pageInit = function(){
+				// 게시판 리스트 조회
+				getBoardList(true);
 			};
 			
-			/* 게시판 데이터 페이징
-			   totalPages : 게시판 데이터 페이징 총 페이지 수
+			/* 모든 게시판의 데이터 조회
+			   isClickFirst : 탭 목록 조회 시 최초 클릭할 탭 설정 (true : 첫번째, false : 마지막 탭)
 			*/
-			var pagination = function(totalPages){
+			var getBoardList = function(isClickFirst){
+				var url = "/bmboard/boards";
+				var type = "GET";
+				var data = {
+					  pageNum:boardPageNum
+					, pageSize:boardPageSize
+					, _csrf:$('#csrf').val()
+				}
+				var onParam = {
+					  isClickFirst:isClickFirst
+				}
+				
+				getList(url, type, data, viewBoardList, onParam, false);
+			}
+			
+			/* 모든 게시판의 데이터 조회
+			   boardIdx : 조회할 게시판
+			   pageNum : 조회할 게시판, 게시물의 페이지 번호
+			   pagingInit : 게시물 페이징 초기화 여부 (true : 초기화, false : 초기화하지 않음)
+			*/
+			var getPostList = function(pagingInit){
+				var url = "/bmboard/posts";
+				var type = "POST";
+				var data = {
+					  pageNum:postPageNum
+					, pageSize:postPageSize
+					, boardIdx:boardIdx
+					, _csrf:$('#csrf').val()
+				}
+				var onParam = {
+					  pagingInit:pagingInit
+				};
+				
+				getList(url, type, data, viewPostList, onParam, false);
+			}
+			
+			/* 게시판 데이터 nav 추가
+			   data : 게시물 데이터
+			   onParam : getList 메소드 성공시 전달하는 파라미터
+			*/
+			var viewBoardList = function(data, onParam){
+				console.log(data);
+				$("#boardNav").children().remove();
+				
+				var html = "";
+				html += '<li class="page-item"><a class="page-link" href="#"><span data-feather="arrow-left" width="15" height="15"></span></a></li>';
+				for(var i = 0; i < data.numberOfElements; i++){
+					html += '<li class="page-item" data="' + data.content[i].boardIdx + '"><a class="page-link" href="#"><span class="text-truncate" style="max-width:150px;height:20px;" title="' + data.content[i].boardName + '">' + data.content[i].boardName + '</span></a></li>';
+				}
+				html += '<li class="page-item"><a class="page-link" href="#"><span data-feather="arrow-right" width="15" height="15"></span></a></li>';
+				
+				$("#boardNav").html(html);
+				
+				feather.replace();
+				
+				boardEleCnt = data.totalElements;
+				
+				if(onParam.isClickFirst){
+					$("#boardNav li:eq(1)").click();
+				}else{
+					$("#boardNav li:eq(" + ($("#boardNav li").length - 2) + ")").click();
+				}
+			}
+				
+			/* 게시판 탭 클릭 메소드 */
+			$(document).on("click", "#boardNav li", function(){
+				var _boardNav = $('#boardNav');
+				var idx = $(this).index();
+				var activeIdx = _boardNav.find(".active").index();
+				var liCnt = _boardNav.find('li').length - 1;
+				var onParam = null;
+				
+				if(idx == 0){
+					// 이전
+					if(!$(this).hasClass("disabled")){
+   					if(activeIdx - 1 <= 0){
+   						if(boardPageNum - 1 >= 0) {
+   							boardPageNum -= 1;
+   							
+   							getBoardList(false);
+   						}
+   					}else{
+   						activeIdx -= 1;
+   						_boardNav.find('li:eq(' + activeIdx + ')').click();
+   					}
+					}
+				}else if(idx == liCnt){
+					// 다음
+					if(!$(this).hasClass("disabled")){
+   					if(activeIdx + 1 >= liCnt){
+   						if(boardPageNum + 1 < Math.ceil(boardEleCnt / boardPageSize)) {
+   							boardPageNum += 1;
+   							
+   							getBoardList(true);
+   						}
+   					}else{
+   						activeIdx += 1;
+   						_boardNav.find('li:eq(' + activeIdx + ')').click();
+   					}
+					}
+				}else{
+					_boardNav.find('li').removeClass("active");
+					$(this).addClass("active");
+					// 이전 화살표 disable 처리
+					if(boardPageNum == 0 && idx == 1){
+						_boardNav.find('li:eq(0)').addClass("disabled");
+					}else{
+						_boardNav.find('li:eq(0)').removeClass("disabled");
+					}
+					
+					// 다음 화살표 disable 처리
+					if(boardEleCnt == (boardPageNum * boardPageSize + idx)){
+						_boardNav.find('li:eq(' + (liCnt) + ')').addClass("disabled");
+					}else{
+						_boardNav.find('li:eq(' + (liCnt) + ')').removeClass("disabled");
+					}
+					
+					$('#spanBoardTitle').text($(this).text());
+					
+					boardIdx = $(this).attr("data");
+					
+					postPageNum = 0;
+					
+					getPostList(true);
+				}
+			});
+			
+			/* 게시물 데이터 테이블 추가
+			   data : 게시물 데이터
+			   onParam : getList 메소드 성공시 전달하는 파라미터
+			*/
+			var viewPostList = function(data, onParam){
+				$("#postTable tbody").children().remove();
+					
+					var html = "";
+					for(var i = 0; i < data.numberOfElements; i++){
+					html += "<tr>";
+					html += "<td><a href='#' class='text-decoration-none d-inline-block text-truncate' id='goView' data='" + data.content[i].postIdx + "' style='max-width: 300px;' title='" + data.content[i].postTitle + "'>";
+					html += data.content[i].postTitle + "</a></td>";
+					html += "<td><span class='d-inline-block text-truncate' style='max-width: 150px;' title='" + data.content[i].email + "'>";
+					html += data.content[i].memberEntity.email + "</span></td>";
+					html += "<td>" + data.content[i].postCnt + "</td>";
+					html += "<td>" + data.content[i].regDate.substr(0, 10) + "</td>";
+					html += "</tr>";
+					}
+					
+					$("#postTable tbody").html(html);
+	
+		    	if(onParam.pagingInit){
+		    		pagination(data.totalPages);
+		    	}
+					
+					feather.replace();
+			};
+			
+			/* 게시물 데이터 페이징
+			   resultPages : 게시물 데이터 페이징 총 페이지 수
+			*/
+			var pagination = function(resultPages){
+				console.log("resultPages : " + resultPages);
+				var totalPages = resultPages;
+				
+				// 게시물이 없는 게시판일 경우 resultPages == 0 이면 pagination 생성 시 에러 발생으로 초기값 1을 설정
+				if(totalPages <= 0){
+					totalPages = 1;
+				}
+				
 				$('#pagination').twbsPagination({
 		            totalPages: totalPages,
-		            visiblePages: pageSize,
+		            visiblePages: postPageSize,
 		            onPageClick: function (event, page) {
 		                console.info(page + ' (from options)');
 		            }
 		        }).on('page', function (event, page) {
-		        	pageNum = page;
-		        	getList(false);
+		        	postPageNum = page - 1;
+		        	getPostList(false);
 		            console.info(page + ' (from event listening)');
 		        });
 			};
 			
-			/* 테이블의 게시판 수정 버튼 클릭 */
-			$(document).on("click", "#buttonEdit", function(){
-				var _tr = $(this).parent().parent();
-				var boardIdx = _tr.find(".bmIdx").text();
-				$.ajax({
-	   			      url:"/bmboard/board/" + boardIdx
-	   			    , async:true
-	   			    , type:'GET'
-	   			    , data: {
-	   			    }
-	   			    , dataType:'json'
-	   			    , success:function(data, msg, response) {
-	   			    	console.log(data);
-	   			    	if(data.resultVo.code == "0000"){
-		 					$("#dialogEdit #boardIdx1").val(data.board.boardIdx);
-		 					$("#dialogEdit #boardName1").val(data.board.boardName);
-		 					$("#dialogEdit #boardDesc1").val(data.board.boardDesc);
-		 					$("#dialogEdit #regDate1").val(data.board.regDate.substr(0, 10) + " " + data.board.regDate.substr(11, 8));
-		 					$("#dialogEdit #regAdmin1").val(data.board.regAdmin);
-		 					$("#dialogEdit #modDate1").val(data.board.modDate.substr(0, 10) + " " + data.board.modDate.substr(11, 8));
-		 					$("#dialogEdit #modAdmin1").val(data.board.modAdmin);
-		 					$('#dialogEdit #boardState1').find('option[value="' + data.board.boardState + '"]').attr("selected",true);
-	   			    		$('#dialogEdit').modal('show');
-	   			    	}else{
-	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
-				    		$('#dialogAlert').modal('show');
-	   			    	}
-	   			    	
-	   			    }
-	   			    , error:function(e) {
-	   			    	$('#dialogAlert #msg').html("정상적으로 조회되지 않았습니다. 다시 조회해주세요.");
-   			    		$('#dialogAlert').modal('show');
-	   			    }
-	   			});
+
+			/* 게시글 작성 페이지 이동 */
+			$(document).on("click", "#buttonRegister", function(){
+				$('#boardIdx').val(boardIdx);
+				$('#formView').attr("action", "/bmboard/post/new.html");
+				
+				$('#formView').submit();
 			});
 			
-			/* 수정 dialog에 update 버튼 클릭 */
-			$('#goUpdate').on('click', function(){
-				var _dialog = $("#dialogEdit");
-				if(!validCheck(_dialog)){
-					return false;
-				}
+			/* 게시글 상세보기 페이지 이동 */
+			$(document).on("click", "#goView", function(){
+				$('#boardIdx').val(boardIdx);
+				$('#postIdx').val($(this).attr('data'));
+				$('#boardPageNum').val(boardPageNum);
+				$('#boardPageSize').val(boardPageSize);
+				$('#postPageNum').val(postPageNum);
+				$('#postPageSize').val(postPageSize);
+				$('#formView').attr("action", "/bmboard/post/view.html");
 				
-				$.ajax({
-	   			      url:"/bmboard/board/" + _dialog.find("#boardIdx1").val()
-	   			    , async:true
-	   			    , type:'PUT'
-	   			    , data: {
-	   			    	  boardDesc:_dialog.find("#boardDesc1").val()
-	   			    	, boardState:_dialog.find("#boardState1").val()
-	   			    	, _csrf:$("#csrf").val()
-	   			    }
-	   			    , dataType:'json'
-	   			    , success:function(data, msg, response) {
-	   			    	if(data.resultVo.code == "0000"){
-	   			    		_dialog.modal('hide');
-	   			    		$('#dialogComplete #msg').html("수정됐습니다.");
-	   			    		$('#dialogComplete').modal('show');
-	   			    		getList(true);
-	   			    	}else{
-	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
-				    		$('#dialogAlert').modal('show');
-	   			    	}
-	   			    }
-	   			    , error:function(e) {
-	   			    	$('#dialogAlert #msg').html("수정에 실패했습니다. 개발팀에 문의해주세요.");
-			    		$('#dialogAlert').modal('show');
-	   			    }
-				});
+				$('#formView').submit();
 			});
 			
-			/* 게시판 등록 버튼 클릭 */
-			$("#buttonRegister").on("click", function(){
-				$('#dialogRegister').modal('show');
-			});
-			
-			/* 게시판 등록 버튼 onkeyup */
-			$("#boardName2").on("keyup", function(){
-				dupCheck = false;
-			});
-			
-			/* 등록 dialog에 게시판명 중복체크 버튼 클릭 */
-			$('#goDupCheck').on('click', function(){
-				var _dialog = $("#dialogRegister");
-				
-				$.ajax({
-	   			      url:"/bmboard/board"
-	   			    , async:true
-	   			    , type:'PUT'
-	   			    , data: {
-						  email:_dialog.find("#boardName2").val()
-	   			    	, _csrf:$("#csrf").val()
-	   			    }
-	   			    , dataType:'json'
-	   			    , success:function(data, msg, response) {
-	   			    	console.log(data);
-	   			    	if(data.resultVo.code == "0000"){
-	 			    		$('#dialogComplete #msg').html("등록 가능한 게시판명입니다.");
-	   			    		$('#dialogComplete').modal('show');
-	   			    		dupCheck = true;
-	   			    	}else{
-	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
-	 			    		$('#dialogAlert').modal('show');
-	 			    		dupCheck = false;
-	   			    	}
-	   			    }
-	   			    , error:function(data, msg, response) {
-	   			    	console.log("error");
- 			    		$('#dialogAlert #msg').html("게시판명 중복체크에 실패했습니다. 개발팀에 문의해주세요.");
- 			    		$('#dialogAlert').modal('show');
-	   			    }
-				});
-			});
-			
-			
-			/* 등록 dialog에 register 버튼 클릭 */
-			$('#goRegister').on('click', function(){
-				var _dialog = $("#dialogRegister");
-				
-				if(!validCheck(_dialog)){
-					return false;
-				}
-				
-				$.ajax({
-	   			      url:"/bmboard/board/"
-	   			    , async:true
-	   			    , type:'POST'
-	   			    , data: {
-						  boardName:_dialog.find("#boardName2").val()
-	   			    	, boardDesc:_dialog.find("#boardDesc2").val()
-	   			    	, boardState:_dialog.find("#boardState2").val()
-	   			    	, _csrf:$("#csrf").val()
-	   			    }
-	   			    , dataType:'json'
-	   			    , success:function(data, msg, response) {
-	   			    	console.log(response);
-   			    		if(data.resultVo.code == "0000"){
-   			    			_dialog.modal('hide');
-   			    			$('#dialogComplete #msg').html("등록됐습니다.");
-   	   			    		$('#dialogComplete').modal('show');
-   	   			    		getList(true);
-	   			    	}else{
-	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
-	 			    		$('#dialogAlert').modal('show');
-	   			    	}
-	   			    }
-	   			    , error:function(data, msg, response) {
-	   			    	console.log(response);
-   			    		$('#dialogAlert #msg').html("등록에 실패했습니다. 개발팀에 문의해주세요.");
-   			    		$('#dialogAlert').modal('show');
-	   			    }
-				});
-			});
-			
-			/* 저장 시 값 유효성 체크
-			   _dialog : 체크할 dialog의 jquery object
-			*/
-			var validCheck = function(_dialog){
-				if(_dialog.attr("id") == "dialogRegister"){
-					var regExp = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-					if(_dialog.find("#boardName2").val() == ""){
-						$('#dialogAlert #msg').html(_dialog.find("#boardName2").attr("aria-label") + "을 입력해주세요.");
-			    		$('#dialogAlert').modal('show');
-			    		return false;
-					}else if(!dupCheck){
-						$('#dialogAlert #msg').html("정상적으로 게시판명 중복체크를 완료해주세요.");
-			    		$('#dialogAlert').modal('show');
-			    		return false;
-					}else if(_dialog.find("#boardDesc2").val() == ""){
-						$('#dialogAlert #msg').html(_dialog.find("#boardDesc2").attr("aria-label") + "을 입력해주세요.");
-			    		$('#dialogAlert').modal('show');
-			    		return false;
-					}else if(_dialog.find("#boardState2").val() == ""){
-						$('#dialogAlert #msg').html(_dialog.find("#boardState2").attr("aria-label") + "을 입력해주세요.");
-			    		$('#dialogAlert').modal('show');
-			    		return false;
-					}
-				}
-				
-				return true;
-			};
-			
-			/* 테이블의 게시판 삭제 버튼 클릭 */
-			$(document).on("click", "#buttonDelete", function(){
-				var _tr = $(this).parent().parent();
-				var boardIdx = _tr.find(".bmIdx").text();
-				
-				$('#boardIdx3').val(boardIdx);
-				if($(this).hasClass("show")){
-					$('#boardState3').val("NORMAL");
-					$('#dialogDelete #msg').html("게시판을 복원하시겠습니까?");
-					$('#goDelete').removeClass("hide");
-					$('#goDelete').addClass("show");
-				}else if($(this).hasClass("hide")){
-					$('#boardState3').val("BLOCK");
-					$('#dialogDelete #msg').html("게시판을 삭제하시겠습니까?");
-					$('#goDelete').removeClass("show");
-					$('#goDelete').addClass("hide");
-				}
-				
-				$('#dialogDelete').modal('show');
-			});
-			
-			/* 삭제 dialog에 yes 버튼 클릭 */
-			$('#goDelete').on('click', function(){
-				var _dialog = $("#dialogDelete");
-				var _this = $(this);
-				
-				$.ajax({
-	   			      url:"/bmboard/board/" + _dialog.find("#boardIdx3").val()
-	   			    , async:true
-	   			    , type:'DELETE'
-	   			    , data: {
-	   			    	  _csrf:$("#csrf").val()
-	   			    	, boardState:_dialog.find("#boardState3").val()
-	   			    }
-	   			    , dataType:'json'
-	   			    , success:function(data, msg, response) {
-   			    		if(data.resultVo.code == "0000"){
-   			    			_dialog.modal('hide');
-   			    			if(_this.hasClass("show")){
-   			    				$('#dialogComplete #msg').html("복원됐습니다.");
-   							}else if(_this.hasClass("hide")){
-	   			    			$('#dialogComplete #msg').html("삭제됐습니다.");
-   							}
-   			    			$('#dialogComplete').modal('show');
-   	   			    		getList(true);
-	   			    	}else{
-	   			    		$('#dialogAlert #msg').html(data.resultVo.msg);
-	 			    		$('#dialogAlert').modal('show');
-	   			    	}
-	   			    }
-	   			    , error:function(e) {
-	   			    	$('#dialogAlert #msg').html("삭제에 실패했습니다. 개발팀에 문의해주세요.");
-			    		$('#dialogAlert').modal('show');
-	   			    }
-				});
-			});
-			
-			// 최초 1페이지 로딩
-			getList(true);
+			// 화면 초기화
+			pageInit();
 		});
-	</script>
+    </script>
+  </body>
 </html>

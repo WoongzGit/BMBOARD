@@ -4,7 +4,6 @@
    data : 조회 데이터
    onSuccess : 성공 시 수행 메소드
    onParam : 성공 시 수행할 메소드에 전달할 파라미터
-   paging : 초기화 여부
 */
 var getList = function(url, type, data, onSuccess, onParam){
 	$.ajax({
@@ -30,24 +29,42 @@ var getList = function(url, type, data, onSuccess, onParam){
    email : 사용자 이메일
    ranking : 사용자 랭킹
 */
-var getUserComp = function(email, ranking){
+var getUserComp = function(_html, email, ranking){
 	var feather = "";
-	var html = "";
-	console.log("getUserComp : " + email + "\t" + ranking);
+	var html = _html;
+	console.log("getUserComp : " + email + "\t" + ranking + "\t" + html);
 	switch(ranking){
 	case 1 : feather = "chrome"; break;
 	case 9 : feather = "compass"; break;
 	case 20 : feather = "plus-circle"; break;
 	default : feather = "circle"; break;
 	}
-	html = '<span class="mt-3 mr-2 border" data-feather="' + feather + '" id="rankIcon1"></span><span>';
-	html += email + '</span>';
+	
+	html = html.replace("!feather!", feather);
+	html = html.replace("!email!", email);
+	console.log("getUserComp : " + email + "\t" + ranking + "\t" + html);
 	
 	return html;
 }
 
+/* 사용자 등급에 해당하는 feather 값 리턴
+   ranking : 사용자 등급
+*/
+var getUserFeather = function(ranking){
+	var feather = "";
+	switch(ranking){
+	case 1 : feather = "chrome"; break;
+	case 9 : feather = "compass"; break;
+	case 20 : feather = "plus-circle"; break;
+	default : feather = "circle"; break;
+	}
+	
+	return feather;
+}
+
 /* 댓글 컴포넌트 생성
    data : 페이징 처리된 데이터
+   isReload : 해당 페이지 삭제 여부
 */
 var getCommentCompList = function(data, isReload){
 	if(isReload){

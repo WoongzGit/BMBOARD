@@ -12,35 +12,55 @@ import org.springframework.stereotype.Service;
 
 import com.bmboard.comment.entity.CommentEntity;
 import com.bmboard.comment.repository.CommentRepository;
+import com.bmboard.member.entity.MemberEntity;
+import com.bmboard.member.repository.MemberRepository;
 
 @Service
 public class CommentService {
 	@Autowired
 	private CommentRepository commentRepository;
 	
-	public Optional<CommentEntity> findById(Long commentsIdx) {
-		return commentRepository.findById(commentsIdx);
-	}
-	
-	public Page<CommentEntity> findAll(PageRequest pageable) {
-		return commentRepository.findAll(pageable);
-	}
+	@Autowired
+	private MemberRepository memberRepository;
 	
 	public Page<CommentEntity> findByPostIdx(PageRequest pageable, CommentEntity comments) {
-		return commentRepository.findByPostIdx(pageable, comments.getPostIdx());
+		return commentRepository.findByPostIdxOrderByCommentOrderDesc(pageable, comments.getPostIdx());
+	}
+	
+	public CommentEntity insertById(CommentEntity comments) {
+		Page<CommentEntity> pageCommentEntity = commentRepository.findByCommentIdxOrderByCommentOrderDesc(PageRequest.of(1, 1), comments.getCommentIdx());
+		CommentEntity commentEntity = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		MemberEntity memberEntity = memberRepository.findByEmail(auth.getName());
+		
+		if(pageCommentEntity.isEmpty()) {
+			comments.setCommentOrder(1);
+		}else {
+			commentEntity = pageCommentEntity.getContent().get(0);
+			comments.setCommentOrder(commentEntity.getCommentOrder() + 1);
+		}
+		
+		comments.setCommentState("NORMAL");
+		comments.setMemberIdx(memberEntity.getMemberIdx());
+		comments.setPostIdx(comments.getPostIdx());
+		comments.setRegDate(LocalDateTime.now());
+		
+		return commentRepository.save(comments);
 	}
 	
 	public CommentEntity updateById(Long commentsIdx, CommentEntity comments) {
 		Optional<CommentEntity> commentsEntity = commentRepository.findById(commentsIdx);
 		CommentEntity retObj = null;
-		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(commentsEntity.isPresent()) {
 			retObj = commentsEntity.get();
-			retObj.setCommentState((retObj.getCommentState().equals(comments.getCommentState()))?retObj.getCommentState():comments.getCommentState());
-			retObj.setModAdmin(auth.getName());
-			retObj.setModDate(LocalDateTime.now());
-			retObj = commentRepository.save(retObj);
+			if(!retObj.getMemberEntity().getEmail().equals(auth.getName())) {
+				retObj = new CommentEntity();
+			}else {
+				retObj.setCommentContents(comments.getCommentContents());
+				retObj.setModDate(LocalDateTime.now());
+				retObj = commentRepository.save(retObj);
+			}
 		}else {
 			retObj = null;
 		}
@@ -53,10 +73,14 @@ public class CommentService {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(commentEntity.isPresent()) {
 			retObj = commentEntity.get();
-			retObj.setModAdmin(auth.getName());
-			retObj.setCommentState((retObj.getCommentState().equals(comment.getCommentState()))?retObj.getCommentState():comment.getCommentState());
-			retObj.setModDate(LocalDateTime.now());
-			retObj = commentRepository.save(retObj);
+			if(!retObj.getMemberEntity().getEmail().equals(auth.getName())) {
+				retObj = new CommentEntity();
+			}else {
+				retObj.setModAdmin(auth.getName());
+				retObj.setCommentState(comment.getCommentState());
+				retObj.setModDate(LocalDateTime.now());
+				retObj = commentRepository.save(retObj);
+			}
 		}else {
 			retObj = null;
 		}

@@ -12,6 +12,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import com.bmboard.member.entity.MemberEntity;
+import com.bmboard.member.repository.MemberRepository;
 import com.bmboard.post.entity.PostEntity;
 import com.bmboard.post.repository.PostRepository;
 
@@ -20,16 +22,23 @@ public class PostService {
 	@Autowired
 	private PostRepository postRepository;
 	
+	@Autowired
+	private MemberRepository memberRepository;
+	
 	public Optional<PostEntity> findById(Long postIdx) {
+		Optional<PostEntity> postEntity = postRepository.findById(postIdx);
+		PostEntity post = null;
+		if(postEntity.isPresent()) {
+			post = postEntity.get();
+			post.setPostCnt(post.getPostCnt() + 1);
+			
+			postRepository.save(post);
+		}
 		return postRepository.findById(postIdx);
 	}
 	
-	public Page<PostEntity> findAll(PageRequest pageable) {
-		return postRepository.findAll(pageable);
-	}
-	
-	public Page<PostEntity> findByBoardIdx(PageRequest pageable, PostEntity post) {
-		return postRepository.findByBoardIdx(pageable, post.getBoardIdx());
+	public Page<PostEntity> findByBoardIdxOrderByRegDateDescPostIdxDesc(PageRequest pageable, PostEntity post) {
+		return postRepository.findByBoardIdxOrderByRegDateDescPostIdxDesc(pageable, post.getBoardIdx());
 	}
 	
 	public PostEntity updateById(Long postIdx, PostEntity post) {
@@ -65,22 +74,42 @@ public class PostService {
 		return retObj;
 	}
 	
+	public PostEntity insertById(PostEntity post) {
+		PostEntity retObj = null;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		MemberEntity memberEntity = memberRepository.findByEmail(auth.getName());
+		post.setModAdmin(auth.getName());
+		post.setMemberIdx(memberEntity.getMemberIdx());
+		post.setPostCnt(0);
+		post.setPostState("NORMAL");
+		post.setRegDate(LocalDateTime.now());
+		
+		retObj = postRepository.save(post);
+		return retObj;
+	}
+	
 	@PostConstruct
 	public void initPost() {
 		PostEntity post;
 		LocalDateTime localDateTime = LocalDateTime.now();
+		int postIdx = 1;
 		
-		post = new PostEntity();
-		post.setPostIdx((long) 1);
-		post.setPostTitle("테스트 게시판 01 테스트 게시물 01");
-		post.setBoardIdx((long) 1);
-		post.setMemberIdx((long) 1);
-		post.setPostContents("테스트중인 게시물임다.");
-		post.setRegDate(localDateTime);
-		post.setModDate(localDateTime);
-		post.setPostState("NORMAL");
-		post.setPostCnt(0);
-		
-		postRepository.save(post);
+		for(int i = 1; i < 3; i++) {
+			for(int j = 1; j < 30; j++) {
+				post = new PostEntity();
+				post.setPostIdx((long) postIdx++);
+				post.setPostTitle("테스트 게시판 0" + i + " 테스트 게시물 0" + j);
+				post.setBoardIdx((long) i);
+				post.setMemberIdx((long) 1);
+				post.setPostContents("테스트중인 게시물임다.");
+				post.setRegDate(localDateTime);
+				post.setModDate(localDateTime);
+				post.setPostState("NORMAL");
+				post.setPostCnt(0);
+				
+				postRepository.save(post);
+				
+			}
+		}
 	}
 }

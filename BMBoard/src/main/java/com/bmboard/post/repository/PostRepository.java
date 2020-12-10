@@ -9,7 +9,5 @@ import com.bmboard.post.entity.PostEntity;
 
 @Repository
 public interface PostRepository extends JpaRepository<PostEntity, Long> {
-	Page<PostEntity> findByBoardIdx(Pageable pageable, Long boardIdx);
-
-	Page<PostEntity> findAll(Pageable pageable);
+	Page<PostEntity> findByBoardIdxOrderByRegDateDescPostIdxDesc(Pageable pageable, Long boardIdx);
 }

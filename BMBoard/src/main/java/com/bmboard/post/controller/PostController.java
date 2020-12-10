@@ -10,6 +10,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -36,29 +38,13 @@ public class PostController {
 	private MessageHandler messageHandler;
 	
 	/*
-	 * 게시물 관리 페이지
+	 * 게시물 신규 페이지
 	 */
-	@GetMapping(value="/bmboard/post/list.html")
-	public String index () {
+	@PostMapping(value="/bmboard/post/new.html")
+	public String newPost (PostEntity post, Model model) {
 		logger.info("index");
-		return "post/post";
-	}
-	
-	/*
-	 * 게시물 관리 페이지
-	 */
-	@PostMapping(value="/bmboard/post/list.html")
-	public String index (@RequestParam int boardPageNum, @RequestParam int boardPageSize,
-			@RequestParam int postPageNum, @RequestParam int postPageSize,
-			PostEntity post, Model model) {
-		logger.info("index");
-		model.addAttribute("boardPageNum", boardPageNum);
-		model.addAttribute("boardPageSize", boardPageSize);
-		model.addAttribute("postPageNum", postPageNum);
-		model.addAttribute("postPageSize", postPageSize);
-		model.addAttribute("boardIdx", post.getBoardIdx());
-		model.addAttribute("postIdx", post.getPostIdx());
-		return "post/post";
+		model.addAttribute("post", post);
+		return "post/new";
 	}
 	
 	/*
@@ -69,12 +55,13 @@ public class PostController {
 						@RequestParam int postPageNum, @RequestParam int postPageSize,
 						PostEntity post, Model model) {
 		logger.info("view");
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		model.addAttribute("userEmail", auth.getName());
 		model.addAttribute("boardPageNum", boardPageNum);
 		model.addAttribute("boardPageSize", boardPageSize);
 		model.addAttribute("postPageNum", postPageNum);
 		model.addAttribute("postPageSize", postPageSize);
-		model.addAttribute("boardIdx", post.getBoardIdx());
-		model.addAttribute("postIdx", post.getPostIdx());
+		model.addAttribute("post", post);
 
 		return "post/view";
 	}
@@ -85,7 +72,7 @@ public class PostController {
 	@PostMapping(value="/bmboard/posts", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Page<PostEntity>> list (@RequestParam int pageNum, @RequestParam int pageSize, PostEntity post) {
 		logger.info("list");
-		return new ResponseEntity<Page<PostEntity>>(postService.findByBoardIdx(PageRequest.of(pageNum, pageSize), post), HttpStatus.OK);
+		return new ResponseEntity<Page<PostEntity>>(postService.findByBoardIdxOrderByRegDateDescPostIdxDesc(PageRequest.of(pageNum, pageSize), post), HttpStatus.OK);
 	}
 	
 	/*
@@ -104,6 +91,24 @@ public class PostController {
 			retObj.setResultVo(messageHandler.getResultVo("result.code.NOT.FOUND.POST"));
 		}
 		
+		return new ResponseEntity<PostVo>(retObj, HttpStatus.OK);
+	}
+	
+	/*
+	 * 게시물 신규 등록
+	 */
+	@PostMapping(value="/bmboard/post", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<PostVo> insertOne (PostEntity post) {
+		logger.info("insertOne");
+		PostVo retObj = new PostVo();
+		PostEntity postEntity = postService.insertById(post);
+		
+		if(postEntity == null){
+			retObj.setResultVo(messageHandler.getResultVo("result.code.INSERT.FAIL.MEMBER"));
+		}else {
+			retObj.setPost(postEntity);
+			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
+		}
 		return new ResponseEntity<PostVo>(retObj, HttpStatus.OK);
 	}
 	

@@ -63,6 +63,25 @@ public class CommentController {
 	}
 	
 	/*
+	 * 댓글 신규 등록
+	 */
+	@PostMapping(value="/bmboard/comment", produces = {MediaType.APPLICATION_JSON_VALUE})
+	public ResponseEntity<CommentVo> insertOne (CommentEntity comment) {
+		logger.info("insertOne");
+		CommentVo retObj = new CommentVo();
+		CommentEntity commentEntity = commentService.insertById(comment);
+			
+		if(commentEntity == null){
+			retObj.setResultVo(messageHandler.getResultVo("result.code.INSERT.FAIL.COMMENT"));
+		}else {
+			retObj.setComment(commentEntity);
+			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
+		}
+		
+		return new ResponseEntity<CommentVo>(retObj, HttpStatus.OK);
+	}
+	
+	/*
 	 * 댓글 수정
 	 */
 	@PutMapping(value="/bmboard/comment/{id}", produces = {MediaType.APPLICATION_JSON_VALUE})
@@ -72,6 +91,8 @@ public class CommentController {
 		CommentEntity commentEntity = commentService.updateById(id, comment);
 		if(commentEntity == null){
 			retObj.setResultVo(messageHandler.getResultVo("result.code.UPDATE.FAIL.COMMENT"));
+		}else if(commentEntity.getCommentIdx() == null){
+			retObj.setResultVo(messageHandler.getResultVo("result.code.UPDATE.FAIL.COMMENT.NO.OWNER"));
 		}else {
 			retObj.setComment(commentEntity);
 			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
@@ -90,6 +111,8 @@ public class CommentController {
 		CommentEntity commentEntity = commentService.deleteById(id, comment);
 		if(commentEntity == null){
 			retObj.setResultVo(messageHandler.getResultVo("result.code.DELETE.FAIL.COMMENT"));
+		}else if(commentEntity.getCommentIdx() == null){
+			retObj.setResultVo(messageHandler.getResultVo("result.code.DELETE.FAIL.COMMENT.NO.OWNER"));
 		}else {
 			retObj.setComment(commentEntity);
 			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));

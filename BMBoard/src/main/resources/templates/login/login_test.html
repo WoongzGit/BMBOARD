@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Bootstrap 4, from LayoutIt!</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="/bmboard/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    
+  </head>
+  <body>
+    <div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark static-top">
+					 
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="navbar-toggler-icon"></span>
+					</button> <a class="navbar-brand" href="#">BMBoard</a>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="navbar-nav">
+							<li class="nav-item active">
+								<a class="nav-link" href="/bmboard/news/list.html">Hacker's News <span class="sr-only">(current)</span></a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/bmboard/board/list.html">Boards</a>
+							</li>
+						</ul>
+						<ul class="navbar-nav ml-md-auto">
+							<li class="nav-item">
+								<a class="nav-link" href="/bmboard/mypage/view.html">myPage</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="#">Logout</a>
+							</li>
+							<li class="nav-item dropdown">
+								<a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbarDropdownMenuLink" data-toggle="dropdown">Login</a>
+								<div class="dropdown-menu dropdown-menu-right">
+									<form class="px-4 py-3">
+									<div class="form-group">
+										<label for="exampleDropdownFormEmail1">Email address</label>
+										<input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
+									</div>
+									<div class="form-group">
+										<label for="exampleDropdownFormPassword1">Password</label>
+										<input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
+									</div>
+									<div class="form-check">
+										<input type="checkbox" class="form-check-input" id="dropdownCheck">
+										<label class="form-check-label" for="dropdownCheck">
+										Remember me
+										</label>
+									</div>
+									<button type="submit" class="btn btn-primary">Sign in</button>
+									</form>
+									<div class="dropdown-divider"></div>
+									<a class="dropdown-item" href="#">New around here? Sign up</a>
+									<a class="dropdown-item" href="#">Forgot password?</a>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				<div class="jumbotron">
+					<h2>
+						안녕, 해커스 뉴스!
+					</h2>
+					<p>
+						최신 해커스 뉴스를 10개 보여드려요!
+					</p>
+				</div>
+			</div>
+		</div>
+		<div class="row" id="hackerNewsList">
+			<div class="col-md-1"><span data-feather="arrow-left-circle"></span></div>
+			<div class="col-md-2">
+				<h2>Heading</h2>
+				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<p class="text-right">seouldnd1@naver.com</p>
+			</div>
+			<div class="col-md-2">
+				<h2>Heading</h2>
+				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<p class="text-right">seouldnd1@naver.com</p>
+			</div>
+			<div class="col-md-2">
+				<h2>Heading</h2>
+				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<p class="text-right">seouldnd1@naver.com</p>
+			</div>
+			<div class="col-md-2">
+				<h2>Heading</h2>
+				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<p class="text-right">seouldnd1@naver.com</p>
+			</div>
+			<div class="col-md-2">
+				<h2>Heading</h2>
+				<p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui.</p>
+				<p class="text-right">seouldnd1@naver.com</p>
+			</div>
+			<div class="col-md-1">
+				<span data-feather="arrow-right-circle"></span>
+			</div>
+		</div>
+	</div>
+
+    <script src="/bmboard/js/jquery/jquery.min.js"></script>
+    <script src="/bmboard/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/bmboard/js/dashboard/feather.min.js"></script>
+    <script>
+    	$(document).ready(function(){
+    		var initBoard = {
+    			  newsUrl : 'https://hacker-news.firebaseio.com/v0/newstories.json?print=pretty'
+    			, preStoryUrl : 'https://hacker-news.firebaseio.com/v0/item/'
+   				, postStoryUrl : '.json?print=pretty'
+    			, leftButton : '<div class="col-md-1"><span data-feather="arrow-left-circle" id="viewLeft"></span></div>'
+    			, rightButton : '<div class="col-md-1"><span data-feather="arrow-right-circle" id="viewRight"></span></div>'
+    			, arrNews : []
+    			, viewLength : 5
+    			, newPage : 0
+    			, viewId : ""
+      			, getHackerNews : function(viewId){
+      				this.viewId = viewId;
+      				var news = this.getNews();
+/* this.appendNews();
+      				
+      				this.addEvent(); */
+      			}
+      			, getNews : function(){
+      				this.getJson(this.newsUrl).then(this.getNewsSuccess);
+      			}
+      			, getNewsSuccess : function(data){
+      				console.log("getNewsSuccess");
+      				for(var i = 0; i < this.viewCount; i++){
+      					this.getStory(i, data[i]);
+      				}
+      			}
+      			, getStory : function(id){
+      				var data = null;
+      				var storyUrl = this.preStoryUrl + id + this.postStoryUrl;
+      				
+      				this.getJson(storyUrl).then(this.getStorySuccess);
+          			
+          			return data;
+      			}
+      			, getStorySuccess : function(data){
+      				this.arrNews.push(this.htmlStory(story));
+      				console.log(this.arrNews);
+      			}
+      			, getJson : function(url){
+   					var data = null;
+   					
+   					return new Promise(function(resolve, reject){
+   						$.ajax({
+    	  	  			      url:url
+    	  	  			    , async:false
+    	  	  			    , type:'GET'
+    	  	  			    , data: {
+    	  	  			    }
+    	  	  			    , dataType:'json'
+    	  	  			    , success:function(e) {
+    	  	  			    	resolve(e);
+    	  	  			    }
+    	  	  			    , error:function(e) {
+    	  	  			    	console.log(e);
+    	  	  			    }
+    	  	  			});
+   					});
+     					
+      				
+      				
+      				return data;
+      			}
+      			, htmlStory : function(jsonStory){
+      				var html = "";
+      				jsonStory.time = this.getFormDate(jsonStory.time);
+      				
+					html += '<div class="col-md-2">';
+					html += '<h2>' + jsonStory.title + '</h2>';
+					if(jsonStory.text != null || jsonStory.text != undefined){
+						html += '<p>' + jsonStory.text + '</p>';
+					}else if(jsonStory.url != null || jsonStory.url != undefined){
+						html += '<p>' + jsonStory.url + '</p>';
+					}
+					html += '<p class="text-right">' + jsonStory.by + '</p>';
+					html += '<p class="text-right">' + jsonStory.time + '</p>';
+					html += '</div>';
+  				}
+      			, getFormDate : function(createTime) {
+      				var createTime = new Date(createTime*1000);
+      				createTime = createTime.getFullYear() + "-" +
+  		                 ((createTime.getMonth() < 9)?"0" + (createTime.getMonth()+1):(createTime.getMonth()+1)) + "-" +
+  		                 ((createTime.getDate() < 10)?"0" + createTime.getDate():createTime.getDate()) + " " + 
+  		                 ((createTime.getHours() < 10)?"0" + createTime.getHours():createTime.getHours()) + ":" + 
+  		                 ((createTime.getMinutes() < 10)?"0" + createTime.getMinutes():createTime.getMinutes()) + ":" + 
+  		                 ((createTime.getSeconds() < 10)?"0" + createTime.getSeconds():createTime.getSeconds());
+  		            return createTime;
+      			}
+      			, appendNews : function() {
+      				$(this.viewId).html("");
+      				
+      				$(this.viewId).append(this.leftButton);
+      				
+      				for(var i = 0; i < this.viewLength; i++){
+      					$(this.viewId).append(this.arrNews[this.newPage + i]);
+      				}
+        			
+      				$(this.viewId).append(this.rightButton);
+      			}
+      			, addEvent : function(){
+      				$(document).on('click', '#viewLeft', this.viewEvent);
+					$(document).on('click', '#viewRight', this.viewEvent);
+      			}
+      			, viewEvent : function(){
+	      			if(this.newPage == 0) this.newPage = 1;
+	    			else this.newPage = 0;
+      				
+	      			this.appendNews();
+      			}
+      		};
+      		
+      		initBoard.getHackerNews("#hackerNewsList");
+      		
+		    feather.replace();
+    	});
+    </script>
+  </body>
+</html>
