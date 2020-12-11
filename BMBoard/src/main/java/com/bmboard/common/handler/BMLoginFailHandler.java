@@ -15,6 +15,7 @@ import org.springframework.security.authentication.AuthenticationServiceExceptio
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.CredentialsExpiredException;
 import org.springframework.security.authentication.DisabledException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
@@ -55,6 +56,8 @@ public class BMLoginFailHandler implements AuthenticationFailureHandler{
 			}
 			
 			memberService.loginTryUp(member);
+		} else if(exception instanceof InsufficientAuthenticationException) {
+			request.setAttribute("loginFailMsg", messageHandler.getMessage("msg.insufficient.user"));
 		} else if(exception instanceof LockedException) {
 			request.setAttribute("loginFailMsg", messageHandler.getMessage("msg.pw.lock"));
 		} else if(exception instanceof DisabledException) {
@@ -65,7 +68,7 @@ public class BMLoginFailHandler implements AuthenticationFailureHandler{
 			request.setAttribute("loginFailMsg", messageHandler.getMessage("msg.expired.pw"));
 		}
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/bmboard/login");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/");
 		dispatcher.forward(request, response);
 	}
 }

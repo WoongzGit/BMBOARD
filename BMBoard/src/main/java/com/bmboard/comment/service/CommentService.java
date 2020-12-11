@@ -3,6 +3,8 @@ package com.bmboard.comment.service;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -22,6 +24,8 @@ public class CommentService {
 	
 	@Autowired
 	private MemberRepository memberRepository;
+	
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	public Page<CommentEntity> findByPostIdx(PageRequest pageable, CommentEntity comments) {
 		return commentRepository.findByPostIdxOrderByCommentOrderDesc(pageable, comments.getPostIdx());
@@ -44,6 +48,13 @@ public class CommentService {
 		comments.setMemberIdx(memberEntity.getMemberIdx());
 		comments.setPostIdx(comments.getPostIdx());
 		comments.setRegDate(LocalDateTime.now());
+		
+		logger.info("comments.getCommentContents() : " + comments.getCommentContents());
+		logger.info("comments.getCommentIdx() : " + comments.getCommentIdx());
+		logger.info("comments.getCommentOrder() : " + comments.getCommentOrder());
+		logger.info("comments.getCommentState() : " + comments.getCommentState());
+		logger.info("comments.getMemberIdx() : " + comments.getMemberIdx());
+		logger.info("comments.getPostIdx() : " + comments.getPostIdx());
 		
 		return commentRepository.save(comments);
 	}

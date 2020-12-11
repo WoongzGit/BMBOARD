@@ -21,11 +21,11 @@
 					 
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
 						<span class="navbar-toggler-icon"></span>
-					</button> <a class="navbar-brand" href="#" id="test">BMBoard</a>
+					</button> <a class="navbar-brand" href="/" id="test">BMBoard</a>
 					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="navbar-nav">
 							<li class="nav-item">
-								<a class="nav-link" href="/bmboard/news/list.html">Hacker's News <span class="sr-only">(current)</span></a>
+								<a class="nav-link" href="/">Hacker's News</a>
 							</li>
 							<li class="nav-item active">
 								<a class="nav-link" href="/bmboard/board/list.html">Boards <span class="sr-only">(current)</span></a>
@@ -33,35 +33,16 @@
 						</ul>
 						<ul class="navbar-nav ml-md-auto">
 							<li class="nav-item">
-								<a class="nav-link" href="/bmboard/mypage/view.html">myPage</a>
+								<a class="nav-link" href="javascript:void(0);" id="viewExplain">
+									<span th:if="${#authentication.principal.getRanking() == 1}" th:data-feather="chrome"></span>
+									<span th:if="${#authentication.principal.getRanking() == 9}" th:data-feather="compass"></span>
+									<span th:if="${#authentication.principal.getRanking() == 20}" th:data-feather="plus-circle"></span>
+									<span th:if="${#authentication.principal.getRanking() > 20}" th:data-feather="circle"></span>
+									[[${#authentication.principal.getEmail()}]]
+								</a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="#">Logout</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link dropdown-toggle" href="javascript:void(0);" id="navbarDropdownMenuLink" data-toggle="dropdown">Login</a>
-								<div class="dropdown-menu dropdown-menu-right">
-									<form class="px-4 py-3">
-									<div class="form-group">
-										<label for="exampleDropdownFormEmail1">Email address</label>
-										<input type="email" class="form-control" id="exampleDropdownFormEmail1" placeholder="email@example.com">
-									</div>
-									<div class="form-group">
-										<label for="exampleDropdownFormPassword1">Password</label>
-										<input type="password" class="form-control" id="exampleDropdownFormPassword1" placeholder="Password">
-									</div>
-									<div class="form-check">
-										<input type="checkbox" class="form-check-input" id="dropdownCheck">
-										<label class="form-check-label" for="dropdownCheck">
-										Remember me
-										</label>
-									</div>
-									<button type="submit" class="btn btn-primary">Sign in</button>
-									</form>
-									<div class="dropdown-divider"></div>
-									<a class="dropdown-item" href="#">New around here? Sign up</a>
-									<a class="dropdown-item" href="#">Forgot password?</a>
-								</div>
+								<a class="nav-link" href="/bmboard/logout">Logout</a>
 							</li>
 						</ul>
 					</div>
@@ -71,7 +52,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-					<h1 class="h2" id="spanBoardTitle">사용자 관리</h1>
+					<h1 class="h2" id="spanBoardTitle"></h1>
 				</div>
 			</div>
 		</div>
@@ -92,12 +73,12 @@
 		<div class="row">
 			<div class="col-md-8">
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style="height:40px;">
-					<p id="spanEmail">test@naver.com</p>
+					<p id="spanEmail"></p>
 				</div>
 			</div>
 			<div class="col-md-4">
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style="height:40px;">
-				<p id="spanPostCnt">100</p>
+				<p id="spanPostCnt"></p>
 				</div>
 			</div>
 		</div>
@@ -105,7 +86,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom" style="height:40px;">
-					<p id="spanPostContents">asdf</p>
+					<p id="spanPostContents"></p>
 				</div>
 			</div>
 		</div>
@@ -113,7 +94,7 @@
 		<div class="row">
 			<div class="col-md-10">
 				<div class="form-group border-bottom" style="height:150px;">
-					<label for="commentContents">[[${userEmail}]]</label>
+					<label for="commentContents"><span sec:authentication="principal.username"></span></label>
 					<textarea class="form-control" id="commentContents" name="commentContents" rows="3" style="resize:none;"></textarea>
 				</div>
 			</div>
@@ -180,16 +161,40 @@
 				</div>
 			</div>
 		</div>
+		
+		<div class="modal fade" tabindex="-1" id="dialogExplain" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">회원 등급 설명</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-success">
+							<p>30 일전부터 어제까지의 총 글 개수 * 10 점,</p>
+							<p>총 댓글 개수 * 5 점으로 계산해서 랭킹을 반영</p>
+							<p><span data-feather="chrome"></span>상위 1%</p>
+							<p><span data-feather="compass"></span>상위 9%</p>
+							<p><span data-feather="plus-circle"></span>상위 20%</p>
+							<p><span data-feather="circle"></span>하위 70%</p>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
 	</div>
 	
-	<form method="POST" action="/bmboard/post/list.html" id="formView">
+	<form method="POST" action="/bmboard/board/list.html" id="formView">
 		<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" id="boardPageNum" th:name="boardPageNum" th:value="${boardPageNum}"/>
 		<input type="hidden" id="boardPageSize" th:name="boardPageSize" th:value="${boardPageSize}"/>
-		<input type="hidden" id="postPageNum" th:name="postPageNum" th:value="${postPageNum}"/>
-		<input type="hidden" id="postPageSize" th:name="postPageSize" th:value="${postPageSize}"/>
 		<input type="hidden" id="boardIdx" th:name="boardIdx" th:value="${post.boardIdx}"/>
-		<input type="hidden" id="postIdx" th:name="postIdx" th:value="${post.postIdx}"/>
+		<input type="hidden" id="boardPageOrd" th:name="boardPageOrd" th:value="${boardPageOrd}"/>
 	</form>
 	
     <script src="/bmboard/js/jquery/jquery.min.js"></script>
@@ -224,7 +229,7 @@
 			var viewPost = function(data){
 				$('#spanBoardTitle').text(data.post.boardEntity.boardName);
 				$('#spanPostTitle').text(data.post.postTitle);
-				$('#spanRegDate').text(data.post.regDate);
+				$('#spanRegDate').text(data.post.regDate.substr(0, 10) + " " + data.post.regDate.substr(11, 8));
 				$('#spanEmail').text(data.post.memberEntity.email);
 				$('#spanPostCnt').text(data.post.postCnt);
 				$('#spanPostContents').text(data.post.postContents);
@@ -297,7 +302,7 @@
 				for(var i = 0; i < data.numberOfElements; i++){
 					
 					// 내 댓글 일 경우 나의 댓글 html 폼 사용
-					if("[[${userEmail}]]" == data.content[i].memberEntity.email){
+					if("[[${#authentication.principal.getEmail()}]]" == data.content[i].memberEntity.email){
 						tmpHtml = myCompHtml;
 					}else{
 						tmpHtml = userCompHtml;
@@ -500,11 +505,15 @@
 			
 			/* 목록 버튼 */
 			$(document).on("click", ".buttonToList", function(){
-				location.href="/bmboard/board/list.html";
+				$('#formView').submit();
 			});
 			
 			/* 댓글 신규 저장 버튼 */
 			$(document).on("click", "#insertComment", function(){
+				if(validationCheck()){
+					return false;
+				}
+				
 				if(!confirm("댓글을 등록하시겠습니까?")){
 					return false;
 				}
@@ -516,7 +525,7 @@
 				var data = {
 					  _csrf:$('#csrf').val()
 					, commentContents:_parent.find("#commentContents").val()
-					, postIdx:$('#postIdx').val()
+					, postIdx:"[[${post.postIdx}]]"
 				};
 				var onParam = {
 					_parent:$(this).parent().parent()
@@ -524,6 +533,33 @@
 				
 				getList(url, type, data, insertComment, onParam);
 			});
+			
+			var validationCheck = function(){
+				if($('#commentContents').val() == ""){
+					$('#dialogAlert #msg').text('댓글이 비어있습니다.');
+					$('#dialogAlert').modal('show');
+					$('#commentContents').focus();
+					return true;
+				}else if($('#commentContents').val() != ""){
+					if(stringByteLength($('#commentContents').val()) > 5000){
+						$('#dialogAlert #msg').text('댓글이 제한 글자 수를 초과했습니다.');
+						$('#dialogAlert').modal('show');
+						$('#commentContents').focus();
+						return true;
+					}
+					var forbidden = '[[${forbiddenWords}]]'.split(",");
+					for(var i = 0; i < forbidden.length; i++){
+						if($('#commentContents').val().indexOf(forbidden[i]) != -1){
+							$('#dialogAlert #msg').text('댓글에 금칙어가 들어가 있습니다.\n' + forbidden[i]);
+							$('#dialogAlert').modal('show');
+							$('#commentContents').focus();
+							return true;
+						}
+					}
+				}
+				
+				return false;
+			};
 			
 			/* 댓글 신규 저장 버튼 콜백 */
 			var insertComment = function (data, onParam) {

@@ -13,9 +13,9 @@ public class LoginController {
 	/*
 	 * 로그인 페이지
 	 */
-	@RequestMapping(value= {"", "bmboard/", "bmboard", "bmboard/login", "bmboard/login/", "bmboard/login/login.html"})
+	@RequestMapping(value= {"", "bmboard/", "bmboard", "bmboard/main", "bmboard/main/", "bmboard/main.html"})
 	public String index () {
 		logger.info("index");
-		return "login/login";
+		return "board/main";
 	}
 }

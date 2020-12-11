@@ -10,8 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -41,9 +39,14 @@ public class PostController {
 	 * 게시물 신규 페이지
 	 */
 	@PostMapping(value="/bmboard/post/new.html")
-	public String newPost (PostEntity post, Model model) {
+	public String newPost (@RequestParam int boardPageNum, @RequestParam int boardPageSize, @RequestParam int boardPageOrd,
+			PostEntity post, Model model) {
 		logger.info("index");
 		model.addAttribute("post", post);
+		model.addAttribute("boardPageNum", boardPageNum);
+		model.addAttribute("boardPageSize", boardPageSize);
+		model.addAttribute("boardPageOrd", boardPageOrd);
+		model.addAttribute("forbiddenWords", messageHandler.getMessage("forbidden.words"));
 		return "post/new";
 	}
 	
@@ -51,16 +54,16 @@ public class PostController {
 	 * 게시물 상세 페이지
 	 */
 	@PostMapping(value="/bmboard/post/view.html")
-	public String view (@RequestParam int boardPageNum, @RequestParam int boardPageSize,
+	public String view (@RequestParam int boardPageNum, @RequestParam int boardPageSize, @RequestParam int boardPageOrd,
 						@RequestParam int postPageNum, @RequestParam int postPageSize,
 						PostEntity post, Model model) {
 		logger.info("view");
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		model.addAttribute("userEmail", auth.getName());
 		model.addAttribute("boardPageNum", boardPageNum);
 		model.addAttribute("boardPageSize", boardPageSize);
+		model.addAttribute("boardPageOrd", boardPageOrd);
 		model.addAttribute("postPageNum", postPageNum);
 		model.addAttribute("postPageSize", postPageSize);
+		model.addAttribute("forbiddenWords", messageHandler.getMessage("forbidden.words"));
 		model.addAttribute("post", post);
 
 		return "post/view";

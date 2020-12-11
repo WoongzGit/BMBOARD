@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>BMBoard</title>
+
+    <meta name="description" content="Source code generated using layoutit.com">
+    <meta name="author" content="LayoutIt!">
+
+    <link href="/bmboard/css/bootstrap/bootstrap.min.css" rel="stylesheet">
+    
+</head>
+<body>
+    <div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12">
+				<nav class="navbar navbar-expand-lg navbar-light bg-light navbar-dark bg-dark static-top">
+					 
+					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+						<span class="navbar-toggler-icon"></span>
+					</button> <a class="navbar-brand" href="/" id="test">BMBoard</a>
+					<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="navbar-nav">
+							<li class="nav-item">
+								<a class="nav-link" href="/">Hacker's News</a>
+							</li>
+							<li class="nav-item active">
+								<a class="nav-link" href="/bmboard/board/list.html">Boards <span class="sr-only">(current)</span></a>
+							</li>
+						</ul>
+						<ul class="navbar-nav ml-md-auto">
+							<li class="nav-item" sec:authorize="isAuthenticated()">
+								<a class="nav-link" href="javascript:void(0);" id="viewExplain">
+									<span th:if="${#authentication.principal.getRanking() == 1}" th:data-feather="chrome"></span>
+									<span th:if="${#authentication.principal.getRanking() == 9}" th:data-feather="compass"></span>
+									<span th:if="${#authentication.principal.getRanking() == 20}" th:data-feather="plus-circle"></span>
+									<span th:if="${#authentication.principal.getRanking() > 20}" th:data-feather="circle"></span>
+									[[${#authentication.principal.getEmail()}]]
+								</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" href="/bmboard/logout">Logout</a>
+							</li>
+						</ul>
+					</div>
+				</nav>
+				<div class="jumbotron">
+					<h2>
+						안녕, 게시판!
+					</h2>
+					<p>
+						게시판을 선택해 게시물을 올려보아요!
+					</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="row" id="boardList">
+		</div>
+		
+		<div class="row">
+			<div class="col-md-12">
+				<div class="jumbotron">
+					<h2>
+						안녕, <span class="boardName1"></span>!
+					</h2>
+					<p>
+						<span class="boardName1"></span>에는 게시물이 있을까요!
+					</p>
+					<div class="btn-toolbar mb-2 mb-md-0">
+						<div class="btn-group mr-2">
+							<button type="button" class="btn btn-sm btn-outline-success" id="buttonRegister">
+							<span data-feather="plus-square"></span>
+							글 작성
+							</button>
+						</div>
+					</div>
+				</div>
+				<table class="table table-hover table-sm" id="postTable">
+					<thead>
+						<tr>
+							<th>
+								제목
+							</th>
+							<th>
+								작성자
+							</th>
+							<th>
+								조회수
+							</th>
+							<th>
+								작성일
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+				<nav aria-label="Page navigation example">
+					<ul id="pagination" class="pagination justify-content-center">
+					</ul>
+				</nav>
+			</div>
+		</div>
+		
+		<div class="modal fade" tabindex="-1" id="dialogComplete" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">정상 처리</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-success">
+							<span class="glyphicon glyphicon-warning-sign" id="msg">저장됐습니다.</span>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" tabindex="-1" id="dialogAlert" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">오류 발생</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-danger">
+							<span class="glyphicon glyphicon-warning-sign" id="msg"></span>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" tabindex="-1" id="dialogAlert" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">알림</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-warning">
+							<span class="glyphicon glyphicon-warning-sign" id="msg"></span>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-warning" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" tabindex="-1" id="dialogExplain" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">회원 등급 설명</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-success">
+							<p>30 일전부터 어제까지의 총 글 개수 * 10 점,</p>
+							<p>총 댓글 개수 * 5 점으로 계산해서 랭킹을 반영</p>
+							<p><span data-feather="chrome"></span>상위 1%</p>
+							<p><span data-feather="compass"></span>상위 9%</p>
+							<p><span data-feather="plus-circle"></span>상위 20%</p>
+							<p><span data-feather="circle"></span>하위 70%</p>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<form method="POST" action="/bmboard/board/list.html" id="formView">
+		<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+		<input type="hidden" id="boardPageNum" th:name="boardPageNum" th:value="${boardPageNum}"/>
+		<input type="hidden" id="boardPageSize" th:name="boardPageSize" th:value="${boardPageSize}"/>
+		<input type="hidden" id="boardPageOrd" th:name="boardPageOrd" th:value="${boardPageOrd}"/>
+		<input type="hidden" id="postPageNum" th:name="postPageNum" th:value="${postPageNum}"/>
+		<input type="hidden" id="postPageSize" th:name="postPageSize" th:value="${postPageSize}"/>
+		<input type="hidden" id="boardIdx" th:name="boardIdx" th:value="${boardIdx}"/>
+		<input type="hidden" id="postIdx" th:name="postIdx" th:value="${postIdx}"/>
+	</form>
+
+    <script src="/bmboard/js/jquery/jquery.min.js"></script>
+    <script src="/bmboard/js/bootstrap/bootstrap.min.js"></script>
+    <script src="/bmboard/js/dashboard/commons.js"></script>
+    <script src="/bmboard/js/dashboard/feather.min.js"></script>
+    <script src="/bmboard/js/jquery/jquery.twbsPagination.js"></script>
+    <script>
+	    $(document).ready(function(){
+			var boardPageNum = 0; // 게시판 페이징 현재 페이지 번호
+			var boardEleCnt = 0; // 게시판 element 개수
+			var boardPageSize = 5; // 게시판 페이징 페이지 사이즈
+			var boardIdx = 0; // 게시판 번호
+			var boardPageOrd = 1; // 게시판 페이징에서 순번
+			var postPageSize = 10; // 게시물 페이지 사이즈
+			var postPageNum = 0; // 게시물 페이징 현재 페이지 번호
+			var pageInit = function(){
+				// 게시판 리스트 조회
+				boardPageNum = ("[[${boardPageNum}]]" != "-1")?"[[${boardPageNum}]]" * 1:boardPageNum;
+				boardPageSize = ("[[${boardPageSize}]]" != "-1")?"[[${boardPageSize}]]" * 1:boardPageSize;
+				boardIdx = ("[[${board.boardIdx}]]" != "-1")?"[[${board.boardIdx}]]" * 1:boardIdx;
+				boardPageOrd = ("[[${boardPageOrd}]]" != "-1")?"[[${boardPageOrd}]]" * 1:boardPageOrd;
+				getBoardList();
+			};
+			
+			/* 모든 게시판의 데이터 조회
+			*/
+			var getBoardList = function(){
+				var url = "/bmboard/boards";
+				var type = "GET";
+				var data = {
+					  pageNum:boardPageNum
+					, pageSize:boardPageSize
+					, _csrf:$('#csrf').val()
+				}
+				var onParam = {
+				}
+				
+				getList(url, type, data, viewBoardList, onParam, false);
+			}
+			
+			/* 모든 게시판의 데이터 조회
+			   boardIdx : 조회할 게시판
+			   pageNum : 조회할 게시판, 게시물의 페이지 번호
+			   pagingInit : 게시물 페이징 초기화 여부 (true : 초기화, false : 초기화하지 않음)
+			*/
+			var getPostList = function(pagingInit){
+				var url = "/bmboard/posts";
+				var type = "POST";
+				var data = {
+					  pageNum:postPageNum
+					, pageSize:postPageSize
+					, boardIdx:boardIdx
+					, _csrf:$('#csrf').val()
+				}
+				var onParam = {
+					  pagingInit:pagingInit
+				};
+				
+				getList(url, type, data, viewPostList, onParam, false);
+			}
+			
+			/* 게시판 데이터 html 추가
+			   data : 게시물 데이터
+			   onParam : getList 메소드 성공시 전달하는 파라미터
+			*/
+			var viewBoardList = function(data, onParam){
+				console.log(data);
+				var leftButton = '<div class="col-md-1 boardButton" id="leftBoardButton"><a href="javascript:void(0);"><span data-feather="arrow-left-circle"></span></a></div>';
+				var rightButton = '<div class="col-md-1  text-right boardButton" id="rightBoardButton"><a href="javascript:void(0);"><span data-feather="arrow-right-circle"></span></a></div>';
+				if(data.first){
+					leftButton = '<div class="col-md-1 boardButton first" id="leftBoardButton"><a href="javascript:void(0);"><span data-feather="arrow-left-circle"></span></a></div>';
+				}
+				if(data.last){
+					rightButton = '<div class="col-md-1  text-right boardButton last" id="rightBoardButton"><a href="javascript:void(0);"><span data-feather="arrow-right-circle"></span></a></div>';
+				}
+				
+				var html = "";
+				
+				html += leftButton;
+				for(var i = 0; i < data.numberOfElements; i++){
+					html += '<div class="col-md-2 boardButton" data="' + data.content[i].boardIdx + '">';
+					html += '<h2 class="text-break" id="boardName"><a href="javascript:void(0);">' + data.content[i].boardName + '</a></h2>';
+					html += '<p class="text-break">' + data.content[i].boardDesc + '</p>';
+					html += '<p class="text-right text-break">' + data.content[i].regDate.substr(0, 10) + '</p>';
+					html += '</div>';
+				}
+				html += rightButton;
+				
+				$('#boardList').html(html);
+				
+				feather.replace();
+				
+				$(".boardButton:eq(" + boardPageOrd + ")").click();
+			}
+				
+			/* 게시판 탭 클릭 메소드 */
+			$(document).on("click", ".boardButton", function(){
+				if(!$(this).hasClass("first") && !$(this).hasClass("last")){
+					$('.boardName1').text($(this).find("#boardName").text());
+					if($(this).attr("id") == "leftBoardButton"){
+						boardPageNum -= 1;
+						boardPageOrd = boardPageSize;
+						getBoardList();
+					}else if($(this).attr("id") == "rightBoardButton"){
+						boardPageNum += 1;
+						boardPageOrd = 1;
+						getBoardList();
+					}else{
+						boardIdx = $(this).attr("data");
+						boardPageOrd = $(this).index();
+						getPostList(true);
+					}
+				}
+			});
+			
+			/* 게시물 데이터 테이블 추가
+			   data : 게시물 데이터
+			   onParam : getList 메소드 성공시 전달하는 파라미터
+			*/
+			var viewPostList = function(data, onParam){
+				$("#postTable tbody").children().remove();
+					
+					var html = "";
+					for(var i = 0; i < data.numberOfElements; i++){
+					html += "<tr>";
+					html += "<td><a href='#' class='text-decoration-none d-inline-block text-truncate' id='goView' data='" + data.content[i].postIdx + "' style='max-width: 300px;' title='" + data.content[i].postTitle + "'>";
+					html += data.content[i].postTitle + "</a></td>";
+					html += "<td><span class='d-inline-block text-truncate' style='max-width: 150px;' title='" + data.content[i].email + "'>";
+					html += data.content[i].memberEntity.email + "</span></td>";
+					html += "<td>" + data.content[i].postCnt + "</td>";
+					html += "<td>" + data.content[i].regDate.substr(0, 10) + "</td>";
+					html += "</tr>";
+					}
+					
+					$("#postTable tbody").html(html);
+	
+		    	if(onParam.pagingInit){
+		    		pagination(data.totalPages);
+		    	}
+					
+					feather.replace();
+			};
+			
+			/* 게시물 데이터 페이징
+			   resultPages : 게시물 데이터 페이징 총 페이지 수
+			*/
+			var pagination = function(resultPages){
+				console.log("resultPages : " + resultPages);
+				var totalPages = resultPages;
+				
+				// 게시물이 없는 게시판일 경우 resultPages == 0 이면 pagination 생성 시 에러 발생으로 초기값 1을 설정
+				if(totalPages <= 0){
+					totalPages = 1;
+				}
+				
+				$('#pagination').twbsPagination({
+		            totalPages: totalPages,
+		            visiblePages: postPageSize,
+		            onPageClick: function (event, page) {
+		                console.info(page + ' (from options)');
+		            }
+		        }).on('page', function (event, page) {
+		        	postPageNum = page - 1;
+		        	getPostList(false);
+		            console.info(page + ' (from event listening)');
+		        });
+			};
+			
+
+			/* 게시물 작성 페이지 이동 전 체크 */
+			$(document).on("click", "#buttonRegister", function(){
+				var url = "/bmboard/member/[[${#authentication.getPrincipal().getMemberIdx()}]]";
+				var type = "GET";
+				var data = {
+				}
+				var onParam = {
+				};
+				
+				getList(url, type, data, fnRegister, onParam);
+			});
+			
+			/* 게시물 작성 페이지 이동 전 체크 콜백 */
+			var fnRegister = function(data, onParam){
+				if(data.member.postCnt >= 5){
+					$('#dialogAlert').modal('show');
+					$('#dialogAlert #msg').text("게시물은 하루에 5개 등록 가능합니다.");
+				}else{
+					$('#boardIdx').val(boardIdx);
+					$('#formView').attr("action", "/bmboard/post/new.html");
+					
+					$('#formView').submit();
+				}
+			}
+			
+			/* 게시글 상세보기 페이지 이동 */
+			$(document).on("click", "#goView", function(){
+				$('#boardIdx').val(boardIdx);
+				$('#postIdx').val($(this).attr('data'));
+				$('#boardPageNum').val(boardPageNum);
+				$('#boardPageSize').val(boardPageSize);
+				$('#postPageNum').val(postPageNum);
+				$('#postPageSize').val(postPageSize);
+				$('#formView').attr("action", "/bmboard/post/view.html");
+				
+				$('#formView').submit();
+			});
+			
+			// 화면 초기화
+			pageInit();
+		});
+    </script>
+  </body>
+</html>

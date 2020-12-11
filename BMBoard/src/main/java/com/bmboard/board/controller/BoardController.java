@@ -9,7 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.bmboard.board.entity.BoardEntity;
@@ -22,14 +24,18 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
-			
+	
 	/*
-	 * 게시판 관리 페이지
+	 * 게시판 페이지
 	 */
-	@GetMapping(value="/bmboard/board/list.html")
-	public String index () {
+	@PostMapping(value="/bmboard/board/list.html")
+	public String index (BoardEntity board, @RequestParam int boardPageNum, @RequestParam int boardPageSize, @RequestParam int boardPageOrd, Model model) {
 		logger.info("index");
-		return "board/board";
+		model.addAttribute("board", board);
+		model.addAttribute("boardPageNum", boardPageNum);
+		model.addAttribute("boardPageSize", boardPageSize);
+		model.addAttribute("boardPageOrd", boardPageOrd);
+		return "board/list";
 	}
 	
 	/*

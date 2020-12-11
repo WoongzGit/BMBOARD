@@ -34,6 +34,6 @@ public class BMLoginSuccessHandler implements AuthenticationSuccessHandler{
 		member.setAdminTry(0);
 		
 		memberService.loginTryUp(member);
-		response.sendRedirect("/bmboard/board/list.html");
+		response.sendRedirect("/");
 	}
 }

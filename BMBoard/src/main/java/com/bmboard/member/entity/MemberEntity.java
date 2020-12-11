@@ -68,19 +68,23 @@ public class MemberEntity implements UserDetails{
 	private Integer adminTry;
 	
 	/* 등록 관리자 */
-	@Column(name = "regAdmin", nullable=false)
+	@Column(name = "regAdmin", nullable=true)
 	private String regAdmin;
 	
 	/* 수정 관리자 */
-	@Column(name = "modAdmin", nullable=false)
+	@Column(name = "modAdmin", nullable=true)
 	private String modAdmin;
+	
+	/* 당일 작성 게시글 횟수 */
+	@Column(name = "postCnt", nullable=true)
+	private Integer postCnt;
 	
 	public MemberEntity() {
 		
 	}
 	
 	public MemberEntity(Long memberIdx, String name, String email, String password, 
-						String auth, Integer ranking, LocalDateTime regDate,
+						String auth, Integer ranking, LocalDateTime regDate, Integer postCnt,
 						LocalDateTime modDate, String memberState, String adminState,
 						Integer memberTry, Integer adminTry, String regAdmin, String modAdmin) {
 		this.memberIdx = memberIdx;
@@ -97,6 +101,7 @@ public class MemberEntity implements UserDetails{
 		this.adminTry = adminTry;
 		this.regAdmin = regAdmin;
 		this.modAdmin = modAdmin;
+		this.postCnt = postCnt;
 	}
 
 	public Long getMemberIdx() {
@@ -251,5 +256,13 @@ public class MemberEntity implements UserDetails{
 
 	public void setModAdmin(String modAdmin) {
 		this.modAdmin = modAdmin;
+	}
+
+	public Integer getPostCnt() {
+		return postCnt;
+	}
+
+	public void setPostCnt(Integer postCnt) {
+		this.postCnt = postCnt;
 	}
 }

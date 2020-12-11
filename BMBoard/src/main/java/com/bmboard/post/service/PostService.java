@@ -85,6 +85,11 @@ public class PostService {
 		post.setRegDate(LocalDateTime.now());
 		
 		retObj = postRepository.save(post);
+		if(retObj != null) {
+			memberEntity.setPostCnt(memberEntity.getPostCnt() + 1);
+			memberEntity = memberRepository.save(memberEntity);
+			retObj.setMemberEntity(memberEntity);
+		}
 		return retObj;
 	}
 	
@@ -94,8 +99,8 @@ public class PostService {
 		LocalDateTime localDateTime = LocalDateTime.now();
 		int postIdx = 1;
 		
-		for(int i = 1; i < 3; i++) {
-			for(int j = 1; j < 30; j++) {
+		for(int i = 1; i < 30; i++) {
+			for(int j = 1; j < 3; j++) {
 				post = new PostEntity();
 				post.setPostIdx((long) postIdx++);
 				post.setPostTitle("테스트 게시판 0" + i + " 테스트 게시물 0" + j);

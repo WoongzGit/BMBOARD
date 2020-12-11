@@ -44,15 +44,17 @@ public class MemberService implements UserDetailsService{
 	}
 	
 	public MemberEntity save(MemberEntity member) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		LocalDateTime localDateTime = LocalDateTime.now();
 		
 		member.setAdminTry(0);
-		member.setRegDate(LocalDateTime.now());
+		member.setRegDate(localDateTime);
 		member.setMemberTry(0);
-		member.setModDate(LocalDateTime.now());
+		member.setModDate(localDateTime);
 		member.setRanking(0);
-		member.setRegAdmin(auth.getName());
-		member.setModAdmin(auth.getName());
+		member.setAdminState("BLOCK");
+		member.setAuth("ROLE_MEMBER");
+		member.setMemberState("NORMAL");
+		member.setPostCnt(0);
 		member.setPassword(passwordEncoder.encode(member.getEmail()));
 		
 		return memberRepository.save(member);
@@ -138,6 +140,7 @@ public class MemberService implements UserDetailsService{
 		member.setModDate(LocalDateTime.now());
 		member.setMemberTry(0);
 		member.setAdminTry(0);
+		member.setPostCnt(0);
 		member.setRegAdmin("seouldnd1@naver.com");
 		member.setModAdmin("seouldnd1@naver.com");
 		
@@ -155,6 +158,7 @@ public class MemberService implements UserDetailsService{
 		member.setModDate(LocalDateTime.now());
 		member.setMemberTry(0);
 		member.setAdminTry(0);
+		member.setPostCnt(0);
 		member.setRegAdmin("seouldnd1@naver.com");
 		member.setModAdmin("seouldnd1@naver.com");
 		
