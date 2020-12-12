@@ -28,7 +28,7 @@
 								<a class="nav-link" href="/">Hacker's News</a>
 							</li>
 							<li class="nav-item active">
-								<a class="nav-link" href="/bmboard/board/list.html">Boards <span class="sr-only">(current)</span></a>
+								<a class="nav-link buttonToList" href="javascript:void(0);">Boards <span class="sr-only">(current)</span></a>
 							</li>
 						</ul>
 						<ul class="navbar-nav ml-md-auto">
@@ -52,7 +52,7 @@
 		<div class="row">
 			<div class="col-md-12">
 				<div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3">
-					<h1 class="h2" id="spanBoardTitle">사용자 관리</h1>
+					<h1 class="h2" id="spanBoardTitle"></h1>
 				</div>
 				<div class="form-group">
 					<label for="postTitle">제목</label>
@@ -72,7 +72,10 @@
 					<button type='button' id='buttonInsert' class='btn btn-info btn-sm'>
 						<span data-feather='edit'></span>저장
 					</button>
-					<button type='button' class='btn btn-info btn-sm buttonToList'>
+					<button type='button' id="buttonToDelete" class='btn btn-danger btn-sm' style="display:none;">
+						<span data-feather='trash'></span>삭제
+					</button>
+					<button type='button' class='btn btn-secondary btn-sm buttonToList'>
 						<span data-feather='edit'></span>목록
 					</button>
 				</p>
@@ -86,7 +89,7 @@
 						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
 							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
 						</button>
-						<h4 class="modal-title custom_align" id="Heading">정상 처리</h4>
+						<h4 class="modal-title custom_align" id="Heading">확인</h4>
 					</div>
 					<div class="modal-body">
 						<div class="alert alert-success">
@@ -95,6 +98,28 @@
 					</div>
 					<div class="modal-footer ">
 						<button type="button" class="btn btn-success buttonToList" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" tabindex="-1" id="dialogConfirm" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">확인</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-success">
+							<span class="glyphicon glyphicon-warning-sign" id="msg">저장됐습니다.</span>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-success" data-dismiss="modal" id="goFunction"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+						<button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">NO</span></button>
 					</div>
 				</div>
 			</div>
@@ -115,7 +140,7 @@
 						</div>
 					</div>
 					<div class="modal-footer ">
-						<button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+						<button type="button" class="btn btn-danger" data-dismiss="modal" id="goFail"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
 					</div>
 				</div>
 			</div>
@@ -148,12 +173,15 @@
 		</div>
 	</div>
 	
-	<form method="POST" action="/bmboard/board/list.html" id="formView">
+	<form method="POST" action="" id="formView">
 		<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" id="boardPageNum" th:name="boardPageNum" th:value="${boardPageNum}"/>
 		<input type="hidden" id="boardPageSize" th:name="boardPageSize" th:value="${boardPageSize}"/>
-		<input type="hidden" id="boardIdx" th:name="boardIdx" th:value="${post.boardIdx}"/>
 		<input type="hidden" id="boardPageOrd" th:name="boardPageOrd" th:value="${boardPageOrd}"/>
+		<input type="hidden" id="postPageNum" th:name="postPageNum" th:value="${postPageNum}"/>
+		<input type="hidden" id="postPageSize" th:name="postPageSize" th:value="${postPageSize}"/>
+		<input type="hidden" id="boardIdx" th:name="boardIdx" th:value="${post.boardIdx}"/>
+		<input type="hidden" id="postIdx" th:name="postIdx" th:value="${post.postIdx}"/>
 	</form>
 	
     <script src="/bmboard/js/jquery/jquery.min.js"></script>
@@ -163,11 +191,47 @@
     <script src="/bmboard/js/jquery/jquery.twbsPagination.js"></script>
     <script>
 	    $(document).ready(function(){
+	    	var goFunc = null;
+	    	var goFail = null;
 			var init = function(){
-				checkRegistrable();
+				if("[[${post.postIdx}]]" != ""){
+					getPost();
+					$('#buttonToDelete').removeAttr('style');
+				}else{
+					checkRegistrable();
+				}
 			};
 			
-			/* 게시물 작성 페이지 이동 전 체크 */
+			/* 게시물 조회 */
+			var getPost = function(){
+				var url = "/bmboard/post/[[${post.postIdx}]]";
+				var type = "GET";
+				var data = {
+				};
+				var onParam = {
+				};
+				
+				getList(url, type, data, viewPost, onParam);
+			};
+			
+			/* 게시물 조회 콜백 */
+			var viewPost = function(data, onParam){
+				$('#postTitle').val(data.post.postTitle);
+				$('#postContents').val(data.post.postContents);
+				$('#spanBoardTitle').text(data.post.boardEntity.boardName);
+				if(data.post.memberEntity.email != "[[${#authentication.principal.getEmail()}]]"){
+					$('#dialogAlert').modal("show");
+					$('#dialogAlert #msg').text("잘못된 접근입니다.");
+					goFail = goMain
+				}
+			}
+			
+			/* 잘못된 접근 리다이렉트 */
+			var goMain = function(data, onParam){
+				location.href = "/";
+			}
+			
+			/* 게시물 작성 전 체크 */
 			var checkRegistrable = function(){
 				var url = "/bmboard/member/[[${#authentication.getPrincipal().getMemberIdx()}]]";
 				var type = "GET";
@@ -179,7 +243,7 @@
 				getList(url, type, data, fnRegister, onParam);
 			};
 			
-			/* 게시물 작성 페이지 이동 전 체크 콜백 */
+			/* 게시물 작성 전 체크 롤백 */
 			var fnRegister = function(data, onParam){
 				if(data.member.postCnt >= 5){
 					alert("게시물은 하루에 5개 등록 가능합니다.");
@@ -211,8 +275,24 @@
 				if(validationCheck()){
 					return false;
 				}
+				
+				goFunc = goSave;
+				
+				$('#dialogConfirm #msg').text('저장하시겠습니까?');
+				$('#dialogConfirm').modal('show');
+			});
+			
+			$(document).on("click", '#goFunction', function(){
+				goFunc();
+			});
+			
+			var goSave = function(){
 				var url = "/bmboard/post";
 				var type = "POST";
+				if("[[${post.postIdx}]]".trim() != ""){
+					type="PUT"
+					url = "/bmboard/post/[[${post.postIdx}]]";
+				}
 				var data = {
 					  _csrf:$('#csrf').val()
 					, postContents:$('#postContents').val()
@@ -222,7 +302,8 @@
 				var onParam = {}
 				
 				getList(url, type, data, insertPost, onParam);
-			});
+			}
+			
 			
 			var validationCheck = function(){
 				if($('#postTitle').val() == ""){
@@ -276,18 +357,53 @@
 			
 			/* 게시글 저장 콜백 */
 			var insertPost = function(data){
+				if(data.resultVo.code.trim() == "0000"){
+					$('#dialogComplete #msg').text('저장됐습니다.');
+					$('#dialogComplete').modal('show');
+				}else{
+					$('#dialogAlert #msg').html(data.resultVo.msg);
+					$('#dialogAlert').modal('show');
+				}
+			}
+			
+			/* 게시글 삭제 */
+			$(document).on("click", '#buttonToDelete', function(){
+				
+				goFunc = goDelete;
+				
+				$('#dialogConfirm #msg').text('삭제하시겠습니까?');
+				$('#dialogConfirm').modal('show');
+			});
+			
+			var goDelete = function(){
+				var url = "/bmboard/post/[[${post.postIdx}]]";
+				var type = "DELETE";
+				var data = {
+					  _csrf:$('#csrf').val()
+				}
+				var onParam = {}
+				
+				getList(url, type, data, deletePost, onParam);
+			}
+			
+			/* 게시글 삭제 콜백 */
+			var deletePost = function(data){
 				if(data.resultVo.code == "0000"){
-  			    		$('#dialogComplete').modal('show');
-  			    	}else{
-  			    		$('#dialogAlert #msg').html(data.resultVo.msg);
-			    		$('#dialogAlert').modal('show');
-  			    	}
+					$('#dialogComplete #msg').text('삭제됐습니다.');
+					$('#dialogComplete').modal('show');
+				}else{
+					$('#dialogAlert #msg').html(data.resultVo.msg);
+					$('#dialogAlert').modal('show');
+				}
 			}
 			
 			/* 목록 버튼 */
-			$(document).on("click", ".buttonToList", function(){
-				$('#formView').submit();
+			$(document).on("click", "#goFail", function(){
+				if(goFail != null){
+					goFail();
+				}
 			});
+			
 			
 			init();
 			

@@ -82,7 +82,7 @@ public class CommentController {
 		if(commentEntity == null){
 			retObj.setResultVo(messageHandler.getResultVo("result.code.UPDATE.FAIL.COMMENT"));
 		}else if(commentEntity.getCommentIdx() == null){
-			retObj.setResultVo(messageHandler.getResultVo("result.code.UPDATE.FAIL.COMMENT.NO.OWNER"));
+			retObj.setResultVo(messageHandler.getResultVo("result.code.NO.AUTH.ACCESS"));
 		}else {
 			retObj.setComment(commentEntity);
 			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
@@ -102,7 +102,7 @@ public class CommentController {
 		if(commentEntity == null){
 			retObj.setResultVo(messageHandler.getResultVo("result.code.DELETE.FAIL.COMMENT"));
 		}else if(commentEntity.getCommentIdx() == null){
-			retObj.setResultVo(messageHandler.getResultVo("result.code.DELETE.FAIL.COMMENT.NO.OWNER"));
+			retObj.setResultVo(messageHandler.getResultVo("result.code.NO.AUTH.ACCESS"));
 		}else {
 			retObj.setComment(commentEntity);
 			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));

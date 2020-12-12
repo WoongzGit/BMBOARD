@@ -17,7 +17,7 @@ public class BoardEntity{
 	private Long boardIdx;
 
 	/* 게시판 이름 */
-	@Column(name = "boardName", nullable=false)
+	@Column(name = "boardName", nullable=false, unique = true)
 	private String boardName;
 	
 	/* 게시판 설명 */
@@ -37,7 +37,7 @@ public class BoardEntity{
 	private String regAdmin;
 	
 	/* 게시판 수정 관리자 */
-	@Column(name = "modAdmin", nullable=false)
+	@Column(name = "modAdmin", nullable=true)
 	private String modAdmin;
 	
 	/* 게시판 상태 */

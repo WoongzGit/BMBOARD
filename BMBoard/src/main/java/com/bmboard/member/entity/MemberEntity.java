@@ -40,7 +40,7 @@ public class MemberEntity implements UserDetails{
 	private String auth;
 	
 	/* 랭킹 */
-	@Column(name = "ranking", nullable=true)
+	@Column(name = "ranking", nullable=false)
 	private Integer ranking;
 	
 	/* 등록일자 */
@@ -76,7 +76,7 @@ public class MemberEntity implements UserDetails{
 	private String modAdmin;
 	
 	/* 당일 작성 게시글 횟수 */
-	@Column(name = "postCnt", nullable=true)
+	@Column(name = "postCnt", nullable=false)
 	private Integer postCnt;
 	
 	public MemberEntity() {
@@ -166,7 +166,7 @@ public class MemberEntity implements UserDetails{
 	@Override
 	public boolean isAccountNonLocked() {
 		boolean retObj = true;
-		if("PWLOCK".equals(getAdminState())){
+		if("PWLOCK".equals(getMemberState())){
 			retObj = false;
 		}
 		return retObj;
@@ -180,7 +180,7 @@ public class MemberEntity implements UserDetails{
 	@Override
 	public boolean isEnabled() {
 		boolean retObj = true;
-		if("BLOCK".equals(getAdminState())){
+		if("BLOCK".equals(getMemberState())){
 			retObj = false;
 		}
 		return retObj;

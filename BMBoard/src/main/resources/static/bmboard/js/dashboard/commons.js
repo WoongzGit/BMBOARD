@@ -1,60 +1,21 @@
-/* 회원가입 버튼 */
-$(document).on("click", '.memberSingUp', function(){
-	var _parent = $(this).parent().parent();
-	
-	if(_parent.find(".form-group:eq(2)").attr("style") != undefined &&
-		_parent.find(".form-group:eq(2)").attr("style") != null &&
-		_parent.find(".form-group:eq(2)").attr("style") != ""){
-		_parent.find(".form-group:eq(2)").removeAttr("style");
-		
-		return false;
-	}
-	
-	if(!confirm("가입하시겠습니까?")){
-		_parent.find("#formEmail").val("");
-		_parent.find("#formPassword").val("");
-		return false;
-	}
-	
-	var url = "/bmboard/user/";
-	var type = "POST";
-	var data = {
-		  _csrf:$('#csrf').val()
-		, email:_parent.find("#formEmail").val()
-		, postIdx:_parent.find("#formPassword").val()
-		, name:_parent.find("#formName").val()
-	};
-	var onParam = {
-		_parent:_parent
-	};
-	
-	getList(url, type, data, memberSingUp, onParam);
+/* 회원 등급 설명 화면 */
+$('#goBoard').on("click", function(){
+	$('#formView #boardPageNum').val("-1");
+	$('#formView #boardPageSize').val("-1");
+	$('#formView #boardIdx').val("-1");
+	$('#formView #boardPageOrd').val("-1");
+	$('#formView').submit();
 });
 
-/* 회원가입 버튼 콜백 */
-var memberSingUp = function (data, onParam) {
-	if(data.resultVo.code == "0000"){
-		$('#dialogComplete #msg').html("가입됐습니다. 로그인해주세요.");
-		$('#dialogComplete').modal('show');
-		onParam._parent.find("#formEmail").val("");
-		onParam._parent.find("#formPassword").val("");
-		onParam._parent.find("#formName").val("");
-		onParam._parent.find(".form-group:eq(2)").attr("style", "display:none;");
-	}else{
-		$('#dialogAlert #msg').html(data.resultVo.msg);
-		$('#dialogAlert').modal('show');
-	}
-}
-
-$(document).on("click", '.memberLogIn', function(){
-	$('#memberForm #username').val($('#formEmail').val());
-	$('#memberForm #password').val($('#formPassword').val());
-	$('#memberForm').attr("action", "/bmboard/loginProcess");
-	$('#memberForm').submit();
-});
-
+/* 회원 등급 설명 화면 */
 $(document).on("click", '#viewExplain', function(){
 	$('#dialogExplain').modal('show');
+});
+
+/* 목록으로 버튼 */
+$(document).on("click", ".buttonToList", function(){
+	$('#formView').attr("action", "/bmboard/board/list.html");
+	$('#formView').submit();
 });
 
 var stringByteLength = (function(s,b,i,c){
@@ -96,7 +57,6 @@ var getList = function(url, type, data, onSuccess, onParam){
 var getUserComp = function(_html, email, ranking){
 	var feather = "";
 	var html = _html;
-	console.log("getUserComp : " + email + "\t" + ranking + "\t" + html);
 	switch(ranking){
 	case 1 : feather = "chrome"; break;
 	case 9 : feather = "compass"; break;
@@ -106,7 +66,6 @@ var getUserComp = function(_html, email, ranking){
 	
 	html = html.replace("!feather!", feather);
 	html = html.replace("!email!", email);
-	console.log("getUserComp : " + email + "\t" + ranking + "\t" + html);
 	
 	return html;
 }

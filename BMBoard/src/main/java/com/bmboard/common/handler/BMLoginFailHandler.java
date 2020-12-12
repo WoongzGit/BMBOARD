@@ -49,10 +49,10 @@ public class BMLoginFailHandler implements AuthenticationFailureHandler{
 			
 			MemberEntity member = memberService.findByEmail(request.getParameter("username"));
 			
-			member.setAdminTry(member.getAdminTry() + 1);
+			member.setMemberTry(member.getMemberTry() + 1);
 			
-			if(member.getAdminTry() >= Integer.parseInt(cnt)) {
-				member.setAdminState("PWLOCK");
+			if(member.getMemberTry() >= Integer.parseInt(cnt)) {
+				member.setMemberState("PWLOCK");
 			}
 			
 			memberService.loginTryUp(member);

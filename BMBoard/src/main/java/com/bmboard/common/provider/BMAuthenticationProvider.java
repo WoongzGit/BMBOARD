@@ -55,11 +55,6 @@ public class BMAuthenticationProvider implements AuthenticationProvider{
 			throw new InternalAuthenticationServiceException("UserDetailsService returned null, which is an interface contract violation");
 		}
 		
-		
-
-
-		
-		
 		String defaultRole = messageHandler.getMessage("default.auth.role");
 		boolean hasDefaultRole = false;
 		String auth = "";
@@ -72,6 +67,10 @@ public class BMAuthenticationProvider implements AuthenticationProvider{
 		if(!hasDefaultRole) {
 			throw new InsufficientAuthenticationException("User Account Role Insufficient Authentication");
 		}
+		logger.info("tttttttttttttttt");
+		logger.info("" + loadedUser.isAccountNonLocked() + "");
+		logger.info("tttttttttttttttt");
+		
 		if(!loadedUser.isAccountNonLocked()) {
 			throw new LockedException("User Account is locked");
 		}

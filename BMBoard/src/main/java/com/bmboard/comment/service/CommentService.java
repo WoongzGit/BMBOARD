@@ -49,13 +49,6 @@ public class CommentService {
 		comments.setPostIdx(comments.getPostIdx());
 		comments.setRegDate(LocalDateTime.now());
 		
-		logger.info("comments.getCommentContents() : " + comments.getCommentContents());
-		logger.info("comments.getCommentIdx() : " + comments.getCommentIdx());
-		logger.info("comments.getCommentOrder() : " + comments.getCommentOrder());
-		logger.info("comments.getCommentState() : " + comments.getCommentState());
-		logger.info("comments.getMemberIdx() : " + comments.getMemberIdx());
-		logger.info("comments.getPostIdx() : " + comments.getPostIdx());
-		
 		return commentRepository.save(comments);
 	}
 	

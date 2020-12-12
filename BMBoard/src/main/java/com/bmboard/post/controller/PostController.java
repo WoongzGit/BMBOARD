@@ -40,13 +40,16 @@ public class PostController {
 	 */
 	@PostMapping(value="/bmboard/post/new.html")
 	public String newPost (@RequestParam int boardPageNum, @RequestParam int boardPageSize, @RequestParam int boardPageOrd,
+			@RequestParam int postPageNum, @RequestParam int postPageSize,
 			PostEntity post, Model model) {
-		logger.info("index");
-		model.addAttribute("post", post);
+		logger.info("newPost");
 		model.addAttribute("boardPageNum", boardPageNum);
 		model.addAttribute("boardPageSize", boardPageSize);
 		model.addAttribute("boardPageOrd", boardPageOrd);
+		model.addAttribute("postPageNum", postPageNum);
+		model.addAttribute("postPageSize", postPageSize);
 		model.addAttribute("forbiddenWords", messageHandler.getMessage("forbidden.words"));
+		model.addAttribute("post", post);
 		return "post/new";
 	}
 	
@@ -75,7 +78,7 @@ public class PostController {
 	@PostMapping(value="/bmboard/posts", produces = {MediaType.APPLICATION_JSON_VALUE})
 	public ResponseEntity<Page<PostEntity>> list (@RequestParam int pageNum, @RequestParam int pageSize, PostEntity post) {
 		logger.info("list");
-		return new ResponseEntity<Page<PostEntity>>(postService.findByBoardIdxOrderByRegDateDescPostIdxDesc(PageRequest.of(pageNum, pageSize), post), HttpStatus.OK);
+		return new ResponseEntity<Page<PostEntity>>(postService.findByBoardIdxPostStateOrderByRegDateDescPostIdxDesc(PageRequest.of(pageNum, pageSize), post), HttpStatus.OK);
 	}
 	
 	/*
@@ -107,7 +110,7 @@ public class PostController {
 		PostEntity postEntity = postService.insertById(post);
 		
 		if(postEntity == null){
-			retObj.setResultVo(messageHandler.getResultVo("result.code.INSERT.FAIL.MEMBER"));
+			retObj.setResultVo(messageHandler.getResultVo("result.code.INSERT.FAIL.POST"));
 		}else {
 			retObj.setPost(postEntity);
 			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
@@ -126,8 +129,12 @@ public class PostController {
 		if(postEntity == null){
 			retObj.setResultVo(messageHandler.getResultVo("result.code.UPDATE.FAIL.POST"));
 		}else {
-			retObj.setPost(postEntity);
-			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
+			if(postEntity.getPostIdx() == null) {
+				retObj.setResultVo(messageHandler.getResultVo("result.code.NO.AUTH.ACCESS"));
+			}else {
+				retObj.setPost(postEntity);
+				retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
+			}
 		}
 		
 		return new ResponseEntity<PostVo>(retObj, HttpStatus.OK);
@@ -144,7 +151,11 @@ public class PostController {
 		if(postEntity == null){
 			retObj.setResultVo(messageHandler.getResultVo("result.code.DELETE.FAIL.POST"));
 		}else {
-			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
+			if(postEntity.getPostIdx() == null) {
+				retObj.setResultVo(messageHandler.getResultVo("result.code.NO.AUTH.ACCESS"));
+			}else {
+				retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
+			}
 		}
 		return new ResponseEntity<PostVo>(retObj, HttpStatus.OK);
 	}

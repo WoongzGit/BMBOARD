@@ -37,21 +37,25 @@ public class PostService {
 		return postRepository.findById(postIdx);
 	}
 	
-	public Page<PostEntity> findByBoardIdxOrderByRegDateDescPostIdxDesc(PageRequest pageable, PostEntity post) {
-		return postRepository.findByBoardIdxOrderByRegDateDescPostIdxDesc(pageable, post.getBoardIdx());
+	public Page<PostEntity> findByBoardIdxPostStateOrderByRegDateDescPostIdxDesc(PageRequest pageable, PostEntity post) {
+		return postRepository.findByBoardIdxAndPostStateOrderByRegDateDescPostIdxDesc(pageable, post.getBoardIdx(), "NORMAL");
 	}
 	
 	public PostEntity updateById(Long postIdx, PostEntity post) {
 		Optional<PostEntity> postEntity = postRepository.findById(postIdx);
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		PostEntity retObj = null;
 		
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if(postEntity.isPresent()) {
 			retObj = postEntity.get();
-			retObj.setPostState((retObj.getPostState().equals(post.getPostState()))?retObj.getPostState():post.getPostState());
-			retObj.setModAdmin(auth.getName());
-			retObj.setModDate(LocalDateTime.now());
-			retObj = postRepository.save(retObj);
+			if(!retObj.getMemberEntity().getEmail().equals(auth.getName())) {
+				retObj = new PostEntity();
+			}else {
+				retObj.setPostTitle(post.getPostTitle());
+				retObj.setPostContents(post.getPostContents());
+				retObj.setModDate(LocalDateTime.now());
+				retObj = postRepository.save(retObj);
+			}
 		}else {
 			retObj = null;
 		}
@@ -60,14 +64,17 @@ public class PostService {
 	
 	public PostEntity deleteById(Long id, PostEntity post) {
 		Optional<PostEntity> postEntity = postRepository.findById(id);
-		PostEntity retObj = null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		PostEntity retObj = null;
 		if(postEntity.isPresent()) {
 			retObj = postEntity.get();
-			retObj.setModAdmin(auth.getName());
-			retObj.setPostState((retObj.getPostState().equals(post.getPostState()))?retObj.getPostState():post.getPostState());
-			retObj.setModDate(LocalDateTime.now());
-			retObj = postRepository.save(retObj);
+			if(!retObj.getMemberEntity().getEmail().equals(auth.getName())) {
+				retObj = new PostEntity();
+			}else {
+				retObj.setPostState("DELETE");
+				retObj.setModDate(LocalDateTime.now());
+				retObj = postRepository.save(retObj);
+			}
 		}else {
 			retObj = null;
 		}
@@ -78,7 +85,6 @@ public class PostService {
 		PostEntity retObj = null;
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		MemberEntity memberEntity = memberRepository.findByEmail(auth.getName());
-		post.setModAdmin(auth.getName());
 		post.setMemberIdx(memberEntity.getMemberIdx());
 		post.setPostCnt(0);
 		post.setPostState("NORMAL");
@@ -91,30 +97,5 @@ public class PostService {
 			retObj.setMemberEntity(memberEntity);
 		}
 		return retObj;
-	}
-	
-	@PostConstruct
-	public void initPost() {
-		PostEntity post;
-		LocalDateTime localDateTime = LocalDateTime.now();
-		int postIdx = 1;
-		
-		for(int i = 1; i < 30; i++) {
-			for(int j = 1; j < 3; j++) {
-				post = new PostEntity();
-				post.setPostIdx((long) postIdx++);
-				post.setPostTitle("테스트 게시판 0" + i + " 테스트 게시물 0" + j);
-				post.setBoardIdx((long) i);
-				post.setMemberIdx((long) 1);
-				post.setPostContents("테스트중인 게시물임다.");
-				post.setRegDate(localDateTime);
-				post.setModDate(localDateTime);
-				post.setPostState("NORMAL");
-				post.setPostCnt(0);
-				
-				postRepository.save(post);
-				
-			}
-		}
 	}
 }

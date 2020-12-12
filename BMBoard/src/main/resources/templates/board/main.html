@@ -28,7 +28,7 @@
 								<a class="nav-link" href="/">Hacker's News <span class="sr-only">(current)</span></a>
 							</li>
 							<li class="nav-item">
-								<a class="nav-link" href="javascript:void(0);" id="goBoard">Boards</a>
+								<a class="nav-link buttonToList" href="javascript:void(0);">Boards <span class="sr-only">(current)</span></a>
 							</li>
 						</ul>
 						</ul>
@@ -64,7 +64,7 @@
 										</div>
 										<div class="form-group" style="display:none;">
 											<label for="formName">이름</label>
-											<input type="text" class="form-control" id="formName" placeholder="Password">
+											<input type="text" class="form-control" id="formName" placeholder="홍길동">
 										</div>
 										<div class="form-group">
 											<button class="btn btn-secondary btn-block memberSingUp">회원가입</button>
@@ -131,6 +131,48 @@
 			</div>
 		</div>
 		
+		<div class="modal fade" tabindex="-1" id="dialogComplete" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">정상 처리</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-success">
+							<span class="glyphicon glyphicon-warning-sign" id="msg">저장됐습니다.</span>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-success" data-dismiss="modal"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="modal fade" tabindex="-1" id="dialogAlert" role="dialog" aria-labelledby="edit" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						</button>
+						<h4 class="modal-title custom_align" id="Heading">오류 발생</h4>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-danger">
+							<span class="glyphicon glyphicon-warning-sign" id="msg"></span>
+						</div>
+					</div>
+					<div class="modal-footer ">
+						<button type="button" class="btn btn-danger" data-dismiss="modal" id="goFail"><span class="glyphicon glyphicon-ok-sign">OK</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
 		<div class="modal fade" tabindex="-1" id="dialogExplain" role="dialog" aria-labelledby="edit" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
@@ -158,7 +200,7 @@
 		</div>
 	</div>
 	
-	<form method="POST" action="/bmboard/board/list.html" id="formBoard">
+	<form method="POST" action="/bmboard/board/list.html" id="formView">
 		<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" id="boardPageNum" name="boardPageNum" value="-1"/>
 		<input type="hidden" id="boardPageSize" name="boardPageSize" value="-1"/>
@@ -179,6 +221,7 @@
     		var viewNewsCnt = 5; // 화면에 표시할 뉴스 개수
     		var boardPageNum = 0; // 게시판 페이징 현재 페이지 번호
 			var boardPageSize = 5; // 게시판 페이징 페이지 사이즈
+
     		var init = function(){
     			if("[[${loginFailMsg}]]" != ""){
     				alert("[[${loginFailMsg}]]");
@@ -189,6 +232,112 @@
 					getBoardList();
     			}
 			};
+			
+			/* 회원가입 버튼 */
+			$(document).on("click", '.memberSingUp', function(){
+				var _parent = $(this).parent().parent();
+				
+				/* 최초 회원가입버튼 클릭 시 이름 입력란이 열림 */
+				if(_parent.find(".form-group:eq(2)").attr("style") != undefined &&
+					_parent.find(".form-group:eq(2)").attr("style") != null &&
+					_parent.find(".form-group:eq(2)").attr("style") != ""){
+					_parent.find(".form-group:eq(2)").removeAttr("style");
+					
+					return false;
+				}
+				
+				if(validationCheck()){
+					return false;
+				}
+				
+				if(!confirm("가입하시겠습니까?")){
+					_parent.find("#formEmail").val("");
+					_parent.find("#formPassword").val("");
+					return false;
+				}
+				
+				var url = "/bmboard/user/";
+				var type = "POST";
+				var data = {
+					  _csrf:$('#csrf').val()
+					, email:_parent.find("#formEmail").val()
+					, password:_parent.find("#formPassword").val()
+					, name:_parent.find("#formName").val()
+				};
+				var onParam = {
+					_parent:_parent
+				};
+				
+				getList(url, type, data, memberSingUp, onParam);
+			});
+			
+			var validationCheck = function(){
+				if($('#formEmail').val() == ""){
+					$('#dialogAlert #msg').text('이메일이 비어있습니다.');
+					$('#dialogAlert').modal('show');
+					$('#formEmail').focus();
+					return true;
+				}else if($('#formEmail').val() != ""){
+					if(stringByteLength($('#formEmail').val()) > 255){
+						$('#dialogAlert #msg').text('이메일이 제한 글자 수를 초과했습니다.');
+						$('#dialogAlert').modal('show');
+						$('#formEmail').focus();
+						return true;
+					}
+				}
+				
+				if($('#formPassword').val() == ""){
+					$('#dialogAlert #msg').text('비밀번호가 비어있습니다.');
+					$('#dialogAlert').modal('show');
+					$('#formPassword').focus();
+					return true;
+				}else if($('#formPassword').val() != ""){
+					if(stringByteLength($('#formPassword').val()) > 255){
+						$('#dialogAlert #msg').text('비밀번호가 제한 글자 수를 초과했습니다.');
+						$('#dialogAlert').modal('show');
+						$('#formPassword').focus();
+						return true;
+					}
+				}
+				
+				if($('#formName').val() == ""){
+					$('#dialogAlert #msg').text('이름이 비어있습니다.');
+					$('#dialogAlert').modal('show');
+					$('#formName').focus();
+					return true;
+				}else if($('#formName').val() != ""){
+					if(stringByteLength($('#formName').val()) > 255){
+						$('#dialogAlert #msg').text('이름이 제한 글자 수를 초과했습니다.');
+						$('#dialogAlert').modal('show');
+						$('#formName').focus();
+						return true;
+					}
+				}
+				
+				return false;
+			};
+
+			/* 회원가입 버튼 콜백 */
+			var memberSingUp = function (data, onParam) {
+				if(data.resultVo.code == "0000"){
+					$('#dialogComplete #msg').html("가입됐습니다. 로그인해주세요.");
+					$('#dialogComplete').modal('show');
+					onParam._parent.find("#formEmail").val("");
+					onParam._parent.find("#formPassword").val("");
+					onParam._parent.find("#formName").val("");
+					onParam._parent.find(".form-group:eq(2)").attr("style", "display:none;");
+				}else{
+					$('#dialogAlert #msg').html(data.resultVo.msg);
+					$('#dialogAlert').modal('show');
+				}
+			}
+
+			$(document).on("click", '.memberLogIn', function(){
+				$('#memberForm #username').val($('#formEmail').val());
+				$('#memberForm #password').val($('#formPassword').val());
+				$('#memberForm').attr("action", "/bmboard/loginProcess");
+				$('#memberForm').submit();
+			});
 			
 			/* 신규 뉴스 목록 조회 */
 			var getNews = function(){
@@ -226,6 +375,10 @@
 			
 			/* 신규 뉴스 상세 조회 콜백 */
 			var setDetailNewsHtml = function(data, onParam){
+				if(data == null){
+					newsLoadCnt++
+					return false;
+				}
 				var html = "";
 				html += '<div class="col-md-2">';
 				html += '<h2 class="text-break">' + data.title + '</h2>';
@@ -337,13 +490,9 @@
 						$("#boardPageSize").val(boardPageSize);
 						$("#boardIdx").val(boardIdx);
 						$("#boardPageOrd").val(boardPageOrd);
-						$('#goBoard').click();
+						$('.buttonToList').click();
 					}
 				}
-			});
-			
-			$('#goBoard').on("click", function(){
-				$('#formBoard').submit();
 			});
 			
 			init();

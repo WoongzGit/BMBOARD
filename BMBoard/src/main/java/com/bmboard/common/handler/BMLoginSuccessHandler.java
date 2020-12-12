@@ -31,7 +31,7 @@ public class BMLoginSuccessHandler implements AuthenticationSuccessHandler{
 		
 		MemberEntity member = memberService.findByEmail(request.getParameter("username"));
 		
-		member.setAdminTry(0);
+		member.setMemberTry(0);
 		
 		memberService.loginTryUp(member);
 		response.sendRedirect("/");

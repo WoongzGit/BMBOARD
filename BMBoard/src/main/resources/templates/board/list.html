@@ -28,7 +28,7 @@
 								<a class="nav-link" href="/">Hacker's News</a>
 							</li>
 							<li class="nav-item active">
-								<a class="nav-link" href="/bmboard/board/list.html">Boards <span class="sr-only">(current)</span></a>
+								<a class="nav-link buttonToList" href="javascript:void(0);">Boards <span class="sr-only">(current)</span></a>
 							</li>
 						</ul>
 						<ul class="navbar-nav ml-md-auto">
@@ -69,6 +69,7 @@
 					</h2>
 					<p>
 						<span class="boardName1"></span>에는 게시물이 있을까요!
+						<p class="boardDesc1"></p>
 					</p>
 					<div class="btn-toolbar mb-2 mb-md-0">
 						<div class="btn-group mr-2">
@@ -196,7 +197,7 @@
 		</div>
 	</div>
 	
-	<form method="POST" action="/bmboard/board/list.html" id="formView">
+	<form method="POST" action="" id="formView">
 		<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" id="boardPageNum" th:name="boardPageNum" th:value="${boardPageNum}"/>
 		<input type="hidden" id="boardPageSize" th:name="boardPageSize" th:value="${boardPageSize}"/>
@@ -288,7 +289,7 @@
 				for(var i = 0; i < data.numberOfElements; i++){
 					html += '<div class="col-md-2 boardButton" data="' + data.content[i].boardIdx + '">';
 					html += '<h2 class="text-break" id="boardName"><a href="javascript:void(0);">' + data.content[i].boardName + '</a></h2>';
-					html += '<p class="text-break">' + data.content[i].boardDesc + '</p>';
+					html += '<p class="text-break" id="boardDesc">' + data.content[i].boardDesc + '</p>';
 					html += '<p class="text-right text-break">' + data.content[i].regDate.substr(0, 10) + '</p>';
 					html += '</div>';
 				}
@@ -305,6 +306,7 @@
 			$(document).on("click", ".boardButton", function(){
 				if(!$(this).hasClass("first") && !$(this).hasClass("last")){
 					$('.boardName1').text($(this).find("#boardName").text());
+					$('.boardDesc1').text($(this).find("#boardDesc").text());
 					if($(this).attr("id") == "leftBoardButton"){
 						boardPageNum -= 1;
 						boardPageOrd = boardPageSize;
@@ -394,6 +396,9 @@
 					$('#dialogAlert #msg').text("게시물은 하루에 5개 등록 가능합니다.");
 				}else{
 					$('#boardIdx').val(boardIdx);
+					$('#boardPageOrd').val(boardPageOrd);
+					$('#postPageNum').val(-1);
+					$('#postPageSize').val(-1);
 					$('#formView').attr("action", "/bmboard/post/new.html");
 					
 					$('#formView').submit();
@@ -408,6 +413,7 @@
 				$('#boardPageSize').val(boardPageSize);
 				$('#postPageNum').val(postPageNum);
 				$('#postPageSize').val(postPageSize);
+				$('#boardPageOrd').val(boardPageOrd);
 				$('#formView').attr("action", "/bmboard/post/view.html");
 				
 				$('#formView').submit();

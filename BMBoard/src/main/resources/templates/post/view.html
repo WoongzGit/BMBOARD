@@ -28,7 +28,7 @@
 								<a class="nav-link" href="/">Hacker's News</a>
 							</li>
 							<li class="nav-item active">
-								<a class="nav-link" href="/bmboard/board/list.html">Boards <span class="sr-only">(current)</span></a>
+								<a class="nav-link buttonToList" href="javascript:void(0);">Boards <span class="sr-only">(current)</span></a>
 							</li>
 						</ul>
 						<ul class="navbar-nav ml-md-auto">
@@ -94,7 +94,7 @@
 		<div class="row">
 			<div class="col-md-10">
 				<div class="form-group border-bottom" style="height:150px;">
-					<label for="commentContents"><span sec:authentication="principal.username"></span></label>
+					<label for="commentContents"><span id="commentAuth"></span></label>
 					<textarea class="form-control" id="commentContents" name="commentContents" rows="3" style="resize:none;"></textarea>
 				</div>
 			</div>
@@ -113,8 +113,11 @@
 		<div class="row">
 			<div class="col-12">
 				<p class="text-right mt-5 mb-5">
-					<button type='button' class='btn btn-info btn-sm buttonToList'>
-						<span data-feather='edit'></span>목록
+					<button type='button' class='btn btn-info btn-sm buttonToUpdate' style="display:none;">
+						<span data-feather='edit'></span>수정
+					</button>
+					<button type='button' class='btn btn-secondary btn-sm buttonToList'>
+						<span data-feather='list'></span>목록
 					</button>
 				</p>
 			</div>
@@ -189,12 +192,15 @@
 		</div>
 	</div>
 	
-	<form method="POST" action="/bmboard/board/list.html" id="formView">
+	<form method="POST" action="" id="formView">
 		<input type="hidden" id="csrf" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
 		<input type="hidden" id="boardPageNum" th:name="boardPageNum" th:value="${boardPageNum}"/>
 		<input type="hidden" id="boardPageSize" th:name="boardPageSize" th:value="${boardPageSize}"/>
-		<input type="hidden" id="boardIdx" th:name="boardIdx" th:value="${post.boardIdx}"/>
 		<input type="hidden" id="boardPageOrd" th:name="boardPageOrd" th:value="${boardPageOrd}"/>
+		<input type="hidden" id="postPageNum" th:name="postPageNum" th:value="${postPageNum}"/>
+		<input type="hidden" id="postPageSize" th:name="postPageSize" th:value="${postPageSize}"/>
+		<input type="hidden" id="boardIdx" th:name="boardIdx" th:value="${post.boardIdx}"/>
+		<input type="hidden" id="postIdx" th:name="postIdx" th:value="${post.postIdx}"/>
 	</form>
 	
     <script src="/bmboard/js/jquery/jquery.min.js"></script>
@@ -211,6 +217,10 @@
 				getPost();
 				
 				getComments();
+				
+				$('#commentAuth').html(getUserComp('<span data-feather="!feather!" width="16" height="16"></span>!email!', "[[${#authentication.principal.getEmail()}]]", "[[${#authentication.principal.getRanking()}]]"));
+				
+				feather.replace();
 			};
 			
 			/* 게시글 상세 조회 */
@@ -230,9 +240,15 @@
 				$('#spanBoardTitle').text(data.post.boardEntity.boardName);
 				$('#spanPostTitle').text(data.post.postTitle);
 				$('#spanRegDate').text(data.post.regDate.substr(0, 10) + " " + data.post.regDate.substr(11, 8));
-				$('#spanEmail').text(data.post.memberEntity.email);
+				$('#spanEmail').html(getUserComp('<span data-feather="!feather!" width="16" height="16"></span>!email!', data.post.memberEntity.email, data.post.memberEntity.ranking));
 				$('#spanPostCnt').text(data.post.postCnt);
 				$('#spanPostContents').text(data.post.postContents);
+				
+				if(data.post.memberEntity.email == "[[${#authentication.principal.getEmail()}]]"){
+					$('.buttonToUpdate').removeAttr("style");
+				}
+				
+				feather.replace();
 			}
 			
 			/* 댓글 상세 조회 */
@@ -310,7 +326,7 @@
 					
 					tmpHtml = tmpHtml.replace(/!feather!/gi, getUserFeather(data.content[i].memberEntity.ranking));
 					tmpHtml = tmpHtml.replace(/!email!/gi, data.content[i].memberEntity.email);
-					tmpHtml = tmpHtml.replace(/!regDate!/gi, data.content[i].regDate);
+					tmpHtml = tmpHtml.replace(/!regDate!/gi, data.content[i].regDate.substr(0, 10) + " " + data.content[i].regDate.substr(11, 8));
 					tmpHtml = tmpHtml.replace(/!commentIdx!/gi, data.content[i].commentIdx);
 					if(data.content[i].commentState == "NORMAL"){
 						tmpHtml = tmpHtml.replace(/!commentContents!/gi, data.content[i].commentContents);
@@ -505,6 +521,7 @@
 			
 			/* 목록 버튼 */
 			$(document).on("click", ".buttonToList", function(){
+				$('#formView').attr("action", "/bmboard/board/list.html");
 				$('#formView').submit();
 			});
 			
@@ -576,9 +593,13 @@
 		    	}
 			}
 			
-			init();
 			
-			feather.replace();
+			$(document).on("click", '.buttonToUpdate', function(){
+				$('#formView').attr("action", "/bmboard/post/new.html");
+				$('#formView').submit();
+			});
+			
+			init();
 		});
     </script>
   </body>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<property name="LOGS_PATH" value="C:/Users/Woongz/Documents/log/bmboard/"/>
+	<!-- <property name="LOGS_PATH" value="C:/Users/Woongz/Documents/log/bmboard/"/> -->
+	<property name="LOGS_PATH" value="../log/bmboard/"/>
 	
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<layout class="ch.qos.logback.classic.PatternLayout">
