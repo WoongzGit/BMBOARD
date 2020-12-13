@@ -1,7 +1,5 @@
 package com.bmboard.common.config;
 
-import java.util.Enumeration;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -19,19 +17,6 @@ public class HtmlInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		logger.info("preHandler");
-		
-		Enumeration<?> paramNames = request.getParameterNames();
-		String paramName = null;
-		
-		while(paramNames.hasMoreElements()) {
-			paramName = (String) paramNames.nextElement();
-			logger.info(paramName + " : " + request.getParameter(paramName));
-			if("postContents".equals(paramName)) {
-				request.setAttribute("postContents", "test");
-				logger.info(paramName + " : " + request.getParameter(paramName));
-				logger.info(paramName + " : " + request.getAttribute(paramName));
-			}
-		}
 		
 		return true;
 	}
