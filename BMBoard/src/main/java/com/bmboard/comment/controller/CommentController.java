@@ -1,5 +1,7 @@
 package com.bmboard.comment.controller;
 
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,12 +62,20 @@ public class CommentController {
 		logger.info("insertOne");
 		CommentVo retObj = new CommentVo();
 		CommentEntity commentEntity = commentService.insertById(comment);
+		Optional<CommentEntity> mailCommentEntity;
 			
 		if(commentEntity == null){
 			retObj.setResultVo(messageHandler.getResultVo("result.code.INSERT.FAIL.COMMENT"));
 		}else {
-			retObj.setComment(commentEntity);
-			retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
+			mailCommentEntity = commentService.findById(commentEntity.getCommentIdx());
+			if(mailCommentEntity.isPresent() && commentService.sendMail(mailCommentEntity.get()) != null) {
+				logger.info("메일 성공");
+				retObj.setComment(commentEntity);
+				retObj.setResultVo(messageHandler.getResultVo("result.code.OK"));
+
+			}else {
+				retObj.setResultVo(messageHandler.getResultVo("result.code.SEND.FAIL.MAIL"));
+			}
 		}
 		
 		return new ResponseEntity<CommentVo>(retObj, HttpStatus.OK);

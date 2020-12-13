@@ -57,10 +57,11 @@ var getList = function(url, type, data, onSuccess, onParam){
 var getUserComp = function(_html, email, ranking){
 	var feather = "";
 	var html = _html;
+	ranking = ranking * 1;
 	switch(ranking){
 	case 1 : feather = "chrome"; break;
-	case 9 : feather = "compass"; break;
-	case 20 : feather = "plus-circle"; break;
+	case 2 : feather = "compass"; break;
+	case 3 : feather = "plus-circle"; break;
 	default : feather = "circle"; break;
 	}
 	
@@ -77,8 +78,8 @@ var getUserFeather = function(ranking){
 	var feather = "";
 	switch(ranking){
 	case 1 : feather = "chrome"; break;
-	case 9 : feather = "compass"; break;
-	case 20 : feather = "plus-circle"; break;
+	case 2 : feather = "compass"; break;
+	case 3 : feather = "plus-circle"; break;
 	default : feather = "circle"; break;
 	}
 	

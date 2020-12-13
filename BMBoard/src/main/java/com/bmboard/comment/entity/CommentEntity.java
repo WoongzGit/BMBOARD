@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 
 import com.bmboard.member.entity.MemberEntity;
+import com.bmboard.post.entity.PostEntity;
 
 @Entity(name="comment")
 public class CommentEntity {
@@ -41,6 +42,11 @@ public class CommentEntity {
 	/* 게시글 순번 */
 	@Column(name = "postIdx", nullable=false)
 	private Long postIdx;
+	
+	/* 게시글엔티티 */
+	@OneToOne(cascade={CascadeType.REFRESH})
+	@JoinColumn(name="postIdx", insertable = false, updatable = false)
+	private PostEntity postEntity;
 	
 	/* 등록일자 */
 	@Column(name = "regDate", nullable=true)
@@ -154,5 +160,13 @@ public class CommentEntity {
 
 	public void setCommentState(String commentState) {
 		this.commentState = commentState;
+	}
+
+	public PostEntity getPostEntity() {
+		return postEntity;
+	}
+
+	public void setPostEntity(PostEntity postEntity) {
+		this.postEntity = postEntity;
 	}
 }
